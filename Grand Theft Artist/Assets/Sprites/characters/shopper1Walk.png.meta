@@ -1,0 +1,356 @@
+fileFormatVersion: 2
+guid: 5dd76717f1da77a49bf9cfce87eade5b
+timeCreated: 1492723822
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: shopper1Walk_0
+    21300002: shopper1Walk_1
+    21300004: shopper1Walk_2
+    21300006: shopper1Walk_3
+    21300008: shopper1Walk_4
+    21300010: shopper1Walk_5
+    21300012: shopper1Walk_6
+    21300014: shopper1Walk_7
+    21300016: shopper1Walk_8
+    21300018: shopper1Walk_9
+    21300020: shopper1Walk_10
+    21300022: shopper1Walk_11
+    21300024: shopper1Walk_12
+    21300026: shopper1Walk_13
+    21300028: shopper1Walk_14
+    21300030: shopper1Walk_15
+    21300032: shopper1Walk_16
+    21300034: shopper1Walk_17
+    21300036: shopper1Walk_18
+    21300038: shopper1Walk_19
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 4096
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: shopper1Walk_0
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 3485
+        width: 293
+        height: 518
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shopper1Walk_1
+      rect:
+        serializedVersion: 2
+        x: 868
+        y: 3476
+        width: 296
+        height: 527
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shopper1Walk_2
+      rect:
+        serializedVersion: 2
+        x: 1544
+        y: 3468
+        width: 300
+        height: 535
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shopper1Walk_3
+      rect:
+        serializedVersion: 2
+        x: 2224
+        y: 3463
+        width: 298
+        height: 540
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shopper1Walk_4
+      rect:
+        serializedVersion: 2
+        x: 2902
+        y: 3456
+        width: 299
+        height: 547
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shopper1Walk_5
+      rect:
+        serializedVersion: 2
+        x: 3580
+        y: 3472
+        width: 298
+        height: 531
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shopper1Walk_6
+      rect:
+        serializedVersion: 2
+        x: 188
+        y: 2603
+        width: 299
+        height: 525
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shopper1Walk_7
+      rect:
+        serializedVersion: 2
+        x: 868
+        y: 2609
+        width: 296
+        height: 519
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shopper1Walk_8
+      rect:
+        serializedVersion: 2
+        x: 1546
+        y: 2615
+        width: 298
+        height: 513
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shopper1Walk_9
+      rect:
+        serializedVersion: 2
+        x: 2225
+        y: 2620
+        width: 293
+        height: 508
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shopper1Walk_10
+      rect:
+        serializedVersion: 2
+        x: 2902
+        y: 2613
+        width: 296
+        height: 515
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shopper1Walk_11
+      rect:
+        serializedVersion: 2
+        x: 3580
+        y: 2604
+        width: 296
+        height: 524
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shopper1Walk_12
+      rect:
+        serializedVersion: 2
+        x: 190
+        y: 1723
+        width: 298
+        height: 530
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shopper1Walk_13
+      rect:
+        serializedVersion: 2
+        x: 868
+        y: 1716
+        width: 298
+        height: 537
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shopper1Walk_14
+      rect:
+        serializedVersion: 2
+        x: 1544
+        y: 1709
+        width: 301
+        height: 544
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shopper1Walk_15
+      rect:
+        serializedVersion: 2
+        x: 2224
+        y: 1725
+        width: 298
+        height: 528
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shopper1Walk_16
+      rect:
+        serializedVersion: 2
+        x: 2900
+        y: 1731
+        width: 299
+        height: 522
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shopper1Walk_17
+      rect:
+        serializedVersion: 2
+        x: 3580
+        y: 1737
+        width: 296
+        height: 516
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shopper1Walk_18
+      rect:
+        serializedVersion: 2
+        x: 190
+        y: 868
+        width: 296
+        height: 510
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shopper1Walk_19
+      rect:
+        serializedVersion: 2
+        x: 869
+        y: 874
+        width: 293
+        height: 504
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

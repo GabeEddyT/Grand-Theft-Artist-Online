@@ -1,0 +1,356 @@
+fileFormatVersion: 2
+guid: fa4337080cbd1c44d8c6d2ff5a22aca3
+timeCreated: 1491972251
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: main_charWalk_0
+    21300002: main_charWalk_1
+    21300004: main_charWalk_2
+    21300006: main_charWalk_3
+    21300008: main_charWalk_4
+    21300010: main_charWalk_5
+    21300012: main_charWalk_6
+    21300014: main_charWalk_7
+    21300016: main_charWalk_8
+    21300018: main_charWalk_9
+    21300020: main_charWalk_10
+    21300022: main_charWalk_11
+    21300024: main_charWalk_12
+    21300026: main_charWalk_13
+    21300028: main_charWalk_14
+    21300030: main_charWalk_15
+    21300032: main_charWalk_16
+    21300034: main_charWalk_17
+    21300036: main_charWalk_18
+    21300038: main_charWalk_19
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 4096
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: main_charWalk_0
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 3515
+        width: 293
+        height: 518
+      alignment: 9
+      pivot: {x: 0.5, y: 0.85}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: main_charWalk_1
+      rect:
+        serializedVersion: 2
+        x: 836
+        y: 3500
+        width: 297
+        height: 526
+      alignment: 9
+      pivot: {x: 0.5, y: 0.85}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: main_charWalk_2
+      rect:
+        serializedVersion: 2
+        x: 1499
+        y: 3484
+        width: 297
+        height: 534
+      alignment: 9
+      pivot: {x: 0.5, y: 0.85}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: main_charWalk_3
+      rect:
+        serializedVersion: 2
+        x: 2169
+        y: 3471
+        width: 299
+        height: 540
+      alignment: 9
+      pivot: {x: 0.5, y: 0.85}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: main_charWalk_4
+      rect:
+        serializedVersion: 2
+        x: 2824
+        y: 3456
+        width: 300
+        height: 547
+      alignment: 9
+      pivot: {x: 0.5, y: 0.85}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: main_charWalk_5
+      rect:
+        serializedVersion: 2
+        x: 3456
+        y: 3478
+        width: 298
+        height: 531
+      alignment: 9
+      pivot: {x: 0.5, y: 0.85}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: main_charWalk_6
+      rect:
+        serializedVersion: 2
+        x: 179
+        y: 2655
+        width: 298
+        height: 525
+      alignment: 9
+      pivot: {x: 0.5, y: 0.85}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: main_charWalk_7
+      rect:
+        serializedVersion: 2
+        x: 812
+        y: 2668
+        width: 297
+        height: 519
+      alignment: 9
+      pivot: {x: 0.5, y: 0.85}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: main_charWalk_8
+      rect:
+        serializedVersion: 2
+        x: 1448
+        y: 2680
+        width: 296
+        height: 513
+      alignment: 9
+      pivot: {x: 0.5, y: 0.85}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: main_charWalk_9
+      rect:
+        serializedVersion: 2
+        x: 2085
+        y: 2691
+        width: 293
+        height: 507
+      alignment: 9
+      pivot: {x: 0.5, y: 0.85}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: main_charWalk_10
+      rect:
+        serializedVersion: 2
+        x: 2715
+        y: 2677
+        width: 297
+        height: 515
+      alignment: 9
+      pivot: {x: 0.5, y: 0.85}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: main_charWalk_11
+      rect:
+        serializedVersion: 2
+        x: 3364
+        y: 2663
+        width: 298
+        height: 523
+      alignment: 9
+      pivot: {x: 0.5, y: 0.85}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: main_charWalk_12
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 1804
+        width: 298
+        height: 531
+      alignment: 9
+      pivot: {x: 0.5, y: 0.85}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: main_charWalk_13
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 1792
+        width: 298
+        height: 537
+      alignment: 9
+      pivot: {x: 0.5, y: 0.85}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: main_charWalk_14
+      rect:
+        serializedVersion: 2
+        x: 1468
+        y: 1779
+        width: 300
+        height: 544
+      alignment: 9
+      pivot: {x: 0.5, y: 0.85}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: main_charWalk_15
+      rect:
+        serializedVersion: 2
+        x: 2126
+        y: 1801
+        width: 298
+        height: 528
+      alignment: 9
+      pivot: {x: 0.5, y: 0.85}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: main_charWalk_16
+      rect:
+        serializedVersion: 2
+        x: 2783
+        y: 1812
+        width: 298
+        height: 523
+      alignment: 9
+      pivot: {x: 0.5, y: 0.85}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: main_charWalk_17
+      rect:
+        serializedVersion: 2
+        x: 3436
+        y: 1824
+        width: 297
+        height: 518
+      alignment: 9
+      pivot: {x: 0.5, y: 0.85}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: main_charWalk_18
+      rect:
+        serializedVersion: 2
+        x: 183
+        y: 1000
+        width: 297
+        height: 512
+      alignment: 9
+      pivot: {x: 0.5, y: 0.85}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: main_charWalk_19
+      rect:
+        serializedVersion: 2
+        x: 842
+        y: 1012
+        width: 293
+        height: 505
+      alignment: 9
+      pivot: {x: 0.5, y: 0.85}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: bd5e7c74a6e0c9d449d1fdea341f810f
+timeCreated: 1493614862
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Comic Neue Angular
+  fontNames:
+  - Comic Neue Angular
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

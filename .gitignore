@@ -1,0 +1,12 @@
+Thumbs.db.meta
+Thumbs.db
+*.sln
+*.userprefs
+/Grand Theft Artist/Library
+/Grand Theft Artist/obj
+/Grand Theft Artist/Temp
+*.csproj
+*.vs
+*.ini
+*.ini.meta
+.DS_Store
