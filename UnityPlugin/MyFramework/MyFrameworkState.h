@@ -9,8 +9,8 @@
 struct InputMessage
 {
 	int id = 0;
-	float vertical = 1.0f;
-	float horizontal = 3.0f;
+	float vertical = 0.0f;
+	float horizontal = 0.0f;
 };
 
 
@@ -22,6 +22,7 @@ class MyFrameworkState
 public:
 	void init(int serverPort, char* ip);
 	char * getPacket();
+	void sendPacket(char* packet);
 	int Networking();
 	int StateFoo(int bar);
 };

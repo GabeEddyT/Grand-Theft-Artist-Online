@@ -20,6 +20,7 @@ extern "C"
 	MYPLUGIN_SYMBOL char* returnToSender(char* delivery);
 	MYPLUGIN_SYMBOL int initNetworking(int serverPort, char* ip);
 	MYPLUGIN_SYMBOL char* getNetworkPacket();
+	MYPLUGIN_SYMBOL void sendNetworkPacket(char* packet);
 
 
 #ifdef __cplusplus

@@ -87,3 +87,8 @@ char * getNetworkPacket()
 {
 	return theState->getPacket();	
 }
+
+void sendNetworkPacket(char * packet)
+{
+	theState->sendPacket(packet);
+}

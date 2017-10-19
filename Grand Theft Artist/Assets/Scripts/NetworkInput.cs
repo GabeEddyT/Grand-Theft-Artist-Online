@@ -22,7 +22,11 @@ public class NetworkInput : MonoBehaviour {
     [DllImport("MyFrameworkPlugin")]
     static extern IntPtr returnToSender(IntPtr delivery);
     [DllImport("MyFrameworkPlugin")]
-    static extern int initNetworking(int serverPort, IntPtr ip);
+    static extern int initNetworking(int serverPort, [MarshalAs(UnmanagedType.LPStr)] String ip);
+    [DllImport("MyFrameworkPlugin")]
+    static extern IntPtr getNetworkPacket();
+    [DllImport("MyFrameworkPlugin")]
+    static extern void sendNetworkPacket(IntPtr packet);
     // Use this for initialization
 
     enum Messages
@@ -42,7 +46,7 @@ public class NetworkInput : MonoBehaviour {
 
 
     void Start () {
-        sendAndReceiveStruct();
+        //sendAndReceiveStruct();
 	}
 	
 	// Update is called once per frame
@@ -88,7 +92,7 @@ public class NetworkInput : MonoBehaviour {
 
     }
 
-    void sendAndReceiveStruct()
+    void SendAndReceiveStruct()
     {
         InputMessage lambda = new InputMessage();
         lambda.vertical = 115.7f;
@@ -102,5 +106,12 @@ public class NetworkInput : MonoBehaviour {
         
         InputMessage backHome = (InputMessage)Marshal.PtrToStructure(kappa, typeof(InputMessage));
         Debug.Log("Horizontal: " + backHome.horizontal + " Vertical: " + backHome.vertical + " ID: " + backHome.id);
+    }
+
+    public void ConnectToRakNet()
+    {
+        // = ip.text;
+        int port = Int32.Parse(serverPort.text);
+        Debug.Log(initNetworking(port, ip.text));
     }
 }
