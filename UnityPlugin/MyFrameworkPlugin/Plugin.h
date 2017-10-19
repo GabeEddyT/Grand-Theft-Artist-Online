@@ -8,7 +8,7 @@ extern "C"
 {
 #endif // __cplusplus
 
-	MYPLUGIN_SYMBOL struct InputMessage
+	struct InputMessage
 	{
 		int id = 0;
 		float vertical = 1.0f;
@@ -24,6 +24,8 @@ extern "C"
 	MYPLUGIN_SYMBOL char* InputTest(char* stuff);
 	MYPLUGIN_SYMBOL char* getTest();
 	MYPLUGIN_SYMBOL char* returnToSender(char* delivery);
+	MYPLUGIN_SYMBOL int initNetworking(int serverPort, char* ip);
+	MYPLUGIN_SYMBOL char* getNetworkPacket();
 
 
 #ifdef __cplusplus

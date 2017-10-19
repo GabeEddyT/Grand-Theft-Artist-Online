@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Runtime.InteropServices;
 
 
@@ -14,20 +15,23 @@ public class NetworkInput : MonoBehaviour {
     static extern unsafe char* CStringTest();
 
     [DllImport("MyFrameworkPlugin")]
-    static extern unsafe char* InputTest(char* stuff);
+    static extern IntPtr InputTest(IntPtr stuff);
 
     [DllImport("MyFrameworkPlugin")]
-    static extern unsafe char* getTest();
+    static extern IntPtr getTest();
     [DllImport("MyFrameworkPlugin")]
     static extern IntPtr returnToSender(IntPtr delivery);
+    [DllImport("MyFrameworkPlugin")]
+    static extern int initNetworking(int serverPort, IntPtr ip);
     // Use this for initialization
 
     enum Messages
     {
-        INPUT,
+        INPUT = 135,
     }
 
-
+    public Text ip;
+    public Text serverPort;
 
     public struct InputMessage
     {
@@ -74,7 +78,7 @@ public class NetworkInput : MonoBehaviour {
 
     unsafe void debugStruct()
     {
-        InputMessage tom = (InputMessage) Marshal.PtrToStructure((System.IntPtr)getTest(), typeof( InputMessage)); //this works :)
+        InputMessage tom = (InputMessage) Marshal.PtrToStructure(getTest(), typeof( InputMessage)); //this works :)
         
         Debug.Log("tom's id: " + tom.id);
 
@@ -87,12 +91,12 @@ public class NetworkInput : MonoBehaviour {
     void sendAndReceiveStruct()
     {
         InputMessage lambda = new InputMessage();
-        lambda.vertical = 17.0f;
-        lambda.horizontal = 25.0f;
+        lambda.vertical = 115.7f;
+        lambda.horizontal = 38.129f;
 
         IntPtr kappa = Marshal.AllocHGlobal(Marshal.SizeOf(lambda));
         
-        Marshal.StructureToPtr(lambda, kappa,false);
+        Marshal.StructureToPtr(lambda, kappa, false);
         
         kappa = returnToSender(kappa);
         

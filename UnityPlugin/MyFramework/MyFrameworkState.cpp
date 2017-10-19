@@ -1,5 +1,5 @@
 #include "MyFrameworkState.h"
-#include "RakNet\RakPeerInterface.h"
+#include "RakNet/RakPeerInterface.h"
 #include <string.h>
 #include "RakNet/MessageIdentifiers.h"
 #include "RakNet/BitStream.h"
@@ -18,128 +18,74 @@ int MyFrameworkState::StateFoo(int bar)
 	return (bar * bar);
 }
 
-int MyFrameworkState::Networking()
+void MyFrameworkState::init(int serverPort, char* ip = "127.0.0.1")
 {
-	//SetConsoleTitle(_T("Tic Tac Jac in the Sac!"));
-	unsigned short serverPort;
 
-	char str[512];
-	RakNet::RakPeerInterface *peer = RakNet::RakPeerInterface::GetInstance();
+	peer = RakNet::RakPeerInterface::GetInstance();
+	RakNet::SocketDescriptor sd;
+	peer->Startup(1, &sd, 1);
+	//serverPort = atoi(str);
 
-	bool isHost = false;
-	bool isLocal = true;
-	bool isTurn;
-	bool goesFirst;
-	bool validMove = true;
-	int winState = -1;
-	std::string s;
-	_setmode(_fileno(stdout), _O_U16TEXT);
+	// TODO - Add code body here
 
+
+	//fgets(str, 512, stdin);
+
+
+
+	peer->Connect(ip, serverPort, 0, 0);
+
+	peer->SetTimeoutTime(300000000, RakNet::UNASSIGNED_SYSTEM_ADDRESS);
+
+}
+//give more time to avoid the timeout while debugging
+
+char* MyFrameworkState::getPacket()
+{
 
 	RakNet::Packet *packet;
-	while (1)
+	packet = peer->Receive();
+	peer->DeallocatePacket(packet);
+	return (char*)packet;
+	switch (packet->data[0])
 	{
-		system("CLS");/*
-		wprintf(L"Welcome to Tic Tac Jack in the Sack\n");*///gabe's name, not mine (jack)
-		//select role
-//Game loops made by jack
-	//isLocal = false;/
-	/*wprintf(L"(G)uest or (H)ost?\n");
-	fgets(str, 512, stdin);*/
-		RakNet::SocketDescriptor sd;
-		peer->Startup(1, &sd, 1);
-
-		//pick port
-		wprintf(L"Set Port:\n");
-		fgets(str, 512, stdin);
-		serverPort = atoi(str);
-
-
-
-
-
-
-
-
-		// TODO - Add code body here
-
-
-
-		wprintf(L"Enter server IP\n");
-		fgets(str, 512, stdin);
-		if (str[0] == 10) {
-			strcpy(str, "127.0.0.1");
-		}
-
+		break;
+	case ID_REMOTE_DISCONNECTION_NOTIFICATION:
+		wprintf(L"Another client has disconnected.\n");
+		break;
+	case ID_REMOTE_CONNECTION_LOST:
+		wprintf(L"Another client has lost the connection.\n");
+		break;
+	case ID_REMOTE_NEW_INCOMING_CONNECTION:
+		wprintf(L"Another client has connected.\n");
+		break;
+	case ID_NO_FREE_INCOMING_CONNECTIONS:
+		wprintf(L"The server is full.\n");
+		break;
+	case ID_CONNECTION_REQUEST_ACCEPTED:
+	{
 		system("cls");
-		peer->Connect(str, serverPort, 0, 0);
-
 	}
-	//give more time to avoid the timeout while debugging
-	peer->SetTimeoutTime(300000000, RakNet::UNASSIGNED_SYSTEM_ADDRESS);
-	std::string messy = "";
-	bool loopGame = true;
-	while (loopGame)
+	break;
+	case ID_NEW_INCOMING_CONNECTION:
 	{
-
-		winState = -1;
-		while (winState == -1)
-		{
-			for (packet = peer->Receive(); packet; peer->DeallocatePacket(packet), packet = peer->Receive())
-			{
-				switch (packet->data[0])
-				{
-					break;
-				case ID_REMOTE_DISCONNECTION_NOTIFICATION:
-					wprintf(L"Another client has disconnected.\n");
-					break;
-				case ID_REMOTE_CONNECTION_LOST:
-					wprintf(L"Another client has lost the connection.\n");
-					break;
-				case ID_REMOTE_NEW_INCOMING_CONNECTION:
-					wprintf(L"Another client has connected.\n");
-					break;
-				case ID_NO_FREE_INCOMING_CONNECTIONS:
-					wprintf(L"The server is full.\n");
-					break;
-				case ID_CONNECTION_REQUEST_ACCEPTED:
-				{
-					system("cls");
-				}
-				break;
-				case ID_NEW_INCOMING_CONNECTION:
-				{
-					system("cls");
-				}
-				break;
-				case ID_DISCONNECTION_NOTIFICATION:
-				{
-					if (isHost) {
-						wprintf(L"A client has disconnected.\n");
-					}
-					else {
-						wprintf(L"We have been disconnected.\n");
-					}
-				}
-				break;
-				case ID_CONNECTION_LOST:
-					if (isHost) {
-						wprintf(L"A client lost the connection.\n");
-					}
-					else {
-						wprintf(L"Connection lost.\n");
-					}
-					break;
-
-
-
-				default:
-					wprintf(L"Message with identifier %i has arrived.\n", packet->data[0]);
-					break;
-				}
-			}
-		}
+		system("cls");
 	}
-	RakNet::RakPeerInterface::DestroyInstance(peer);
-	return 0;
+	break;
+	case ID_DISCONNECTION_NOTIFICATION:
+	{
+		wprintf(L"We have been disconnected.\n");
+
+	}
+	break;
+	case ID_CONNECTION_LOST:
+		wprintf(L"Connection lost.\n");
+		break;
+		
+
+	default:
+		wprintf(L"Message with identifier %i has arrived.\n", packet->data[0]);
+		break;
+	}
+
 }

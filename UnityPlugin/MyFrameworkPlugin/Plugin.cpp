@@ -19,7 +19,7 @@ MYPLUGIN_SYMBOL MyFrameworkState *theState = 0;
 
 enum Messages
 {
-	JERRY,
+	INPUT = ID_USER_PACKET_ENUM + 1,
 };
 
 int Startup()
@@ -64,7 +64,7 @@ char* getTest()
 	InputMessage *tom;
 	tom->horizontal = 74.0f;
 	tom->vertical = 56.0f;
-	tom->id = JERRY;
+	tom->id = INPUT;
 	return (char*)tom;
 }
 
@@ -75,4 +75,15 @@ char* returnToSender(char* delivery)
 	pkg->vertical /= 2;
 	return (char*)pkg;
 	
+}
+
+int initNetworking(int serverPort, char * ip)
+{
+	theState->init(serverPort, ip);
+	return 0;
+}
+
+char * getNetworkPacket()
+{
+	return theState->getPacket();	
 }
