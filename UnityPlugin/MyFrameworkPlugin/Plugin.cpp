@@ -19,7 +19,7 @@ MYPLUGIN_SYMBOL MyFrameworkState *theState = 0;
 
 enum Messages
 {
-	INPUT = ID_USER_PACKET_ENUM + 1,
+	INPUT_ID = ID_USER_PACKET_ENUM + 1,
 };
 
 int Startup()
@@ -64,7 +64,7 @@ char* getTest()
 	InputMessage *tom;
 	tom->horizontal = 74.0f;
 	tom->vertical = 56.0f;
-	tom->id = INPUT;
+	tom->id = INPUT_ID;
 	return (char*)tom;
 }
 

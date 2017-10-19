@@ -8,12 +8,6 @@ extern "C"
 {
 #endif // __cplusplus
 
-	struct InputMessage
-	{
-		int id = 0;
-		float vertical = 1.0f;
-		float horizontal = 3.0f;
-	};
 	//	startup and shutdown
 	MYPLUGIN_SYMBOL int Startup();
 	MYPLUGIN_SYMBOL int Shutdown();

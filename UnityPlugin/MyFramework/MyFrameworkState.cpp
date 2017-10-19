@@ -1,9 +1,5 @@
 #include "MyFrameworkState.h"
-#include "RakNet/RakPeerInterface.h"
-#include <string.h>
-#include "RakNet/MessageIdentifiers.h"
-#include "RakNet/BitStream.h"
-#include "RakNet/RakNetTypes.h"  // MessageID
+#include <string.h> // MessageID
 #include <fstream>
 #include <sstream>
 #include <string>
