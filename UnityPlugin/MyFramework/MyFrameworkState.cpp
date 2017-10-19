@@ -40,9 +40,17 @@ char* MyFrameworkState::getPacket()
 {
 
 	RakNet::Packet *packet;
+	
 	packet = peer->Receive();
 	peer->DeallocatePacket(packet);
-	return (char*)packet;
+	if (packet)
+	{
+		return (char*)packet->data;
+	}
+	else
+	{
+		return NULL;
+	}
 	switch (packet->data[0])
 	{
 		break;

@@ -36,6 +36,7 @@ public class NetworkInput : MonoBehaviour {
 
     public Text ip;
     public Text serverPort;
+    bool initFlag = false;
 
     public struct InputMessage
     {
@@ -52,7 +53,11 @@ public class NetworkInput : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        if (initFlag)
+        {
+            getPacket();
+            //initFlag = false;
+        }
 	}
 
     unsafe void debugCstring()
@@ -114,5 +119,32 @@ public class NetworkInput : MonoBehaviour {
         // = ip.text;
         int port = Int32.Parse(serverPort.text);
         Debug.Log(initNetworking(port, ip.text));
+        initFlag = true;
+    }
+
+    void getPacket()
+    {
+        //char* charPtr = (char*) getNetworkPacket();
+
+        IntPtr packet = getNetworkPacket();
+        //if (charPtr == null)
+        //{
+        //    return;
+        //}
+        ////if (packet == IntPtr.Zero)
+        //{
+        //    return;
+        //}
+        Debug.Log(Marshal.ReadByte(packet, 0));
+
+        switch ((Messages)Marshal.ReadByte(packet,0))
+        {
+            case Messages.INPUT:
+                Debug.Log("I shouldn't be *receiving* input...");
+                break;
+            default:
+                Debug.Log("Message with identifier: " + Marshal.ReadByte(packet, 0));
+                break;
+        }
     }
 }
