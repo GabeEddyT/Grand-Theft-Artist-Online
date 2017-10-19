@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 72bd936d70b00644abcce66537c21d42
+timeCreated: 1508394846
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 18
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: spleen machine pk
+  fontNames:
+  - spleen machine pk
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
