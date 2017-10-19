@@ -47,6 +47,7 @@ public class NetworkInput : MonoBehaviour {
 
     void Start () {
         //sendAndReceiveStruct();
+        Startup();
 	}
 	
 	// Update is called once per frame
