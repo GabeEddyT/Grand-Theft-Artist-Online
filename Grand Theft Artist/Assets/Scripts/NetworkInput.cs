@@ -39,6 +39,7 @@ public class NetworkInput : MonoBehaviour {
 
     public Text ip;
     public Text serverPort;
+    public Text chatMess;
     bool initFlag = false;
 
     public struct InputMessage
@@ -53,6 +54,14 @@ public class NetworkInput : MonoBehaviour {
     {
         public int id;
         public fixed char pseudoString[512];
+        public BetaString(int theID, char* cars)
+        {
+            id = theID;
+            fixed (char* tessy = pseudoString)
+            {
+                *tessy = *cars;
+            }
+        }
     }
 
     void Start () {
@@ -182,5 +191,25 @@ public class NetworkInput : MonoBehaviour {
                 Debug.Log("Message with identifier: " + packet[0]);
                 break;
         }
+    }
+
+    public unsafe void Send()
+    {
+        
+        ////BetaString bs = new BetaString((int)Messages.MESSAGE);
+        //bs.id = (int)Messages.MESSAGE;
+        //IntPtr pointer = Marshal.AllocHGlobal(Marshal.SizeOf(*bs.pseudoString));
+        //Marshal.StructureToPtr(*bs.pseudoString, pointer, false);
+
+        
+        ////bs->pseudoString = Marshal.StringToHGlobalAnsi( chatMess.text);
+        
+        
+
+        //IntPtr kappa = Marshal.AllocHGlobal(Marshal.SizeOf(bs));
+
+        //Marshal.StructureToPtr(bs, kappa, false);
+
+        //sendNetworkPacket(kappa);
     }
 }
