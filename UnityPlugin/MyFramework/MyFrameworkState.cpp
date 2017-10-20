@@ -42,13 +42,14 @@ char* MyFrameworkState::getPacket()
 	RakNet::Packet *packet;
 	
 	packet = peer->Receive();
-	peer->DeallocatePacket(packet);
 	if (packet)
 	{
 		return (char*)packet->data;
 	}
 	else
 	{
+		
+
 		return NULL;
 	}
 	switch (packet->data[0])
@@ -91,6 +92,7 @@ char* MyFrameworkState::getPacket()
 		wprintf(L"Message with identifier %i has arrived.\n", packet->data[0]);
 		break;
 	}
+	peer->DeallocatePacket(packet);
 
 }
 

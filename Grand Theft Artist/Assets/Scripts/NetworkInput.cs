@@ -24,14 +24,17 @@ public class NetworkInput : MonoBehaviour {
     [DllImport("MyFrameworkPlugin")]
     static extern int initNetworking(int serverPort, [MarshalAs(UnmanagedType.LPStr)] String ip);
     [DllImport("MyFrameworkPlugin")]
-    static extern IntPtr getNetworkPacket();
+    static extern unsafe char* getNetworkPacket();
     [DllImport("MyFrameworkPlugin")]
     static extern void sendNetworkPacket(IntPtr packet);
     // Use this for initialization
 
+    
+
     enum Messages
     {
-        INPUT = 135,
+        MESSAGE = 135,
+        INPUT
     }
 
     public Text ip;
@@ -45,6 +48,12 @@ public class NetworkInput : MonoBehaviour {
         public float horizontal;
     }
 
+    
+    public unsafe struct BetaString
+    {
+        public int id;
+        public fixed char pseudoString[512];
+    }
 
     void Start () {
         //sendAndReceiveStruct();
@@ -118,15 +127,16 @@ public class NetworkInput : MonoBehaviour {
     {
         // = ip.text;
         int port = Int32.Parse(serverPort.text);
-        Debug.Log(initNetworking(port, ip.text));
+        //Debug.Log();
+        initNetworking(port, ip.text);
         initFlag = true;
     }
 
-    void getPacket()
+    unsafe void getPacket()
     {
         //char* charPtr = (char*) getNetworkPacket();
 
-        IntPtr packet = getNetworkPacket();
+        char* packet = getNetworkPacket();
         //if (charPtr == null)
         //{
         //    return;
@@ -135,15 +145,41 @@ public class NetworkInput : MonoBehaviour {
         //{
         //    return;
         //}
-        Debug.Log(Marshal.ReadByte(packet, 0));
 
-        switch ((Messages)Marshal.ReadByte(packet,0))
+        if (packet != null)
         {
+
+        }
+        else
+            return;
+
+        //Debug.Log(packet[0]);
+       // char* cPack = (char*) packet;
+        switch ((Messages)packet[0])
+        {
+            case Messages.MESSAGE:
+  
+                IntPtr care = (IntPtr) packet;
+                BetaString* poi = (BetaString*)care;
+                //BetaString bs = *(BetaString*) packet;
+                //char* cs = bs.pseudoString;
+                //string likeActualString = new string(cs);
+
+                //Debug.Log((*bs.pseudoString).ToString());
+                //System.Text.StringBuilder theSood = (System.Text.StringBuilder)Marshal.PtrToStructure((IntPtr)packet, typeof(System.Text.StringBuilder));
+                //string makeReal = Marshal.PtrToStringAuto((char*)theSood.ToPointer());
+
+                //Debug.Log(new string(theSood));
+                //Debug.Log(theSood);
+                //Console.WriteLine(*theSood);
+                string outputPls = Marshal.PtrToStringAnsi((IntPtr)poi->pseudoString) ; /*new string(bs.pseudoString) +*/ //new string(poi->pseudoString);
+                Debug.Log(outputPls);
+                break;
             case Messages.INPUT:
                 Debug.Log("I shouldn't be *receiving* input...");
                 break;
             default:
-                Debug.Log("Message with identifier: " + Marshal.ReadByte(packet, 0));
+                Debug.Log("Message with identifier: " + packet[0]);
                 break;
         }
     }
