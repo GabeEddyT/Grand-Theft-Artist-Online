@@ -19,7 +19,14 @@ MYPLUGIN_SYMBOL MyFrameworkState *theState = 0;
 
 enum Messages
 {
-	INPUT_ID = ID_USER_PACKET_ENUM + 1,
+	CHAT_ID = ID_USER_PACKET_ENUM + 1,
+	INPUT_ID
+};
+
+struct BetaString
+{
+	int id = CHAT_ID;
+	char message[512];
 };
 
 int Startup()
@@ -86,6 +93,13 @@ int initNetworking(int serverPort, char * ip)
 char * getNetworkPacket()
 {
 	return theState->getPacket();	
+}
+
+ void sendChatMessage(char message[512])
+{
+	 BetaString bs;
+	 strcpy(bs.message, message);
+	 theState->sendPacket((char*)&bs);
 }
 
 void sendNetworkPacket(char * packet)

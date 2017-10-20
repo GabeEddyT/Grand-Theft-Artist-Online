@@ -27,9 +27,11 @@ public class NetworkInput : MonoBehaviour {
     static extern unsafe char* getNetworkPacket();
     [DllImport("MyFrameworkPlugin")]
     static extern void sendNetworkPacket(IntPtr packet);
+    [DllImport("MyFrameworkPlugin")]
+    static extern unsafe void  sendChatMessage(string message);
     // Use this for initialization
 
-    
+
 
     enum Messages
     {
@@ -195,16 +197,21 @@ public class NetworkInput : MonoBehaviour {
 
     public unsafe void Send()
     {
-        
+        if (initFlag)
+        {
+            string s = chatMess.text;
+            sendChatMessage(s);
+            Debug.Log("Me: " + chatMess.text);
+        }
         ////BetaString bs = new BetaString((int)Messages.MESSAGE);
         //bs.id = (int)Messages.MESSAGE;
         //IntPtr pointer = Marshal.AllocHGlobal(Marshal.SizeOf(*bs.pseudoString));
         //Marshal.StructureToPtr(*bs.pseudoString, pointer, false);
 
-        
+
         ////bs->pseudoString = Marshal.StringToHGlobalAnsi( chatMess.text);
-        
-        
+
+
 
         //IntPtr kappa = Marshal.AllocHGlobal(Marshal.SizeOf(bs));
 
