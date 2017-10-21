@@ -56,14 +56,6 @@ public class NetworkInput : MonoBehaviour {
     {
         public int id;
         public fixed char pseudoString[512];
-        public BetaString(int theID, char* cars)
-        {
-            id = theID;
-            fixed (char* tessy = pseudoString)
-            {
-                *tessy = *cars;
-            }
-        }
     }
 
     void Start () {
@@ -195,7 +187,7 @@ public class NetworkInput : MonoBehaviour {
         }
     }
 
-    public unsafe void Send()
+    public unsafe void SendChat()
     {
         if (initFlag)
         {
