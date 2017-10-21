@@ -58,6 +58,11 @@ int Foo(int bar)
 	return (bar * bar);
 }
 
+const char * getGUID()
+{
+	return theState->getGUID().ToString();
+}
+
 char* CStringTest()
 {
 	return "hi";

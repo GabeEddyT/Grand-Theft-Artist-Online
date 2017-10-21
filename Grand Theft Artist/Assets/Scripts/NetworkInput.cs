@@ -29,16 +29,21 @@ public class NetworkInput : MonoBehaviour {
     static extern void sendNetworkPacket(IntPtr packet);
     [DllImport("MyFrameworkPlugin")]
     static extern unsafe void  sendChatMessage(string message);
+    [DllImport("MyFrameworkPlugin")]
+    static extern unsafe IntPtr getGUID();
     // Use this for initialization
 
 
 
     enum Messages
     {
+        REQUEST_ACCEPTED = 16,
         MESSAGE = 135,
-        INPUT
+        INPUT,
+        GUID
     }
 
+    string guid;
     public Text ip;
     public Text serverPort;
     //public Text chatMess;
@@ -50,6 +55,7 @@ public class NetworkInput : MonoBehaviour {
         public int id;
         public float vertical;
         public float horizontal;
+        public string guid;
     }
 
     
@@ -73,31 +79,31 @@ public class NetworkInput : MonoBehaviour {
         }
 	}
 
-    unsafe void debugCstring()
-    {
-        string str = Marshal.PtrToStringAnsi((System.IntPtr)CStringTest());
-            Debug.Log(str);
-        string mama = "hello there";
-        System.Text.StringBuilder tester = new System.Text.StringBuilder(mama);
-        // char* the;
-        string pStr = "Hello World!";
+    //unsafe void debugCstring()
+    //{
+    //    string str = Marshal.PtrToStringAnsi((System.IntPtr)CStringTest());
+    //        Debug.Log(str);
+    //    string mama = "hello there";
+    //    System.Text.StringBuilder tester = new System.Text.StringBuilder(mama);
+    //    // char* the;
+    //    string pStr = "Hello World!";
 
-        InputMessage* pChars = (InputMessage*)Marshal.StringToHGlobalAnsi(pStr).ToPointer();
-        char* pSomething = (char*)pChars;
-        char* charArray;
-        InputMessage* pTerrible;
-        InputMessage* pTulips = (InputMessage*)Marshal.StringToHGlobalAnsi(new string(pSomething)).ToPointer();
+    //    InputMessage* pChars = (InputMessage*)Marshal.StringToHGlobalAnsi(pStr).ToPointer();
+    //    char* pSomething = (char*)pChars;
+    //    char* charArray;
+    //    InputMessage* pTerrible;
+    //    InputMessage* pTulips = (InputMessage*)Marshal.StringToHGlobalAnsi(new string(pSomething)).ToPointer();
 
-        fixed (char* p = "hey hello yada")
-        {
-            //string derp = Marshal.PtrToStringAnsi((System.IntPtr)(p));
-            string derp = new string(p);
-            Debug.Log(new string(p));
+    //    fixed (char* p = "hey hello yada")
+    //    {
+    //        //string derp = Marshal.PtrToStringAnsi((System.IntPtr)(p));
+    //        string derp = new string(p);
+    //        Debug.Log(new string(p));
             
-        }
+    //    }
 
         
-    }
+    //}
 
     unsafe void debugStruct()
     {
@@ -134,6 +140,7 @@ public class NetworkInput : MonoBehaviour {
         //Debug.Log();
         initNetworking(port, ip.text);
         initFlag = true;
+        SetGUID();
     }
 
     unsafe void getPacket()
@@ -183,8 +190,11 @@ public class NetworkInput : MonoBehaviour {
             case Messages.INPUT:
                 Debug.Log("I shouldn't be *receiving* input...");
                 break;
+            case Messages.REQUEST_ACCEPTED:
+                Debug.Log("Connection Request accepted!");
+                break;
             default:
-                Debug.Log("Message with identifier: " + packet[0]);
+                Debug.Log("Message with identifier: " + (int) packet[0]);
                 break;
         }
     }
@@ -220,5 +230,18 @@ public class NetworkInput : MonoBehaviour {
         im.id = (int)Messages.INPUT;
         im.horizontal = Input.GetAxis("Horizontal");
         im.vertical = Input.GetAxis("Vertical");
+        im.guid = guid;
+        IntPtr myPtr = Marshal.AllocHGlobal(Marshal.SizeOf(im));
+        Marshal.StructureToPtr(im, myPtr, false);
+    }
+
+    public unsafe void sendGUID()
+    {
+        
+    }
+
+    public unsafe void SetGUID()
+    {
+        guid = Marshal.PtrToStringAnsi(getGUID());
     }
 }

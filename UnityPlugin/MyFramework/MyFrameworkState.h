@@ -22,6 +22,7 @@ public:
 	void init(int serverPort, char* ip);
 	char * getPacket();
 	void sendPacket(char* packet, int size = 8);
+	inline RakNet::RakNetGUID getGUID() { return peer->GetMyGUID(); }
 	int Networking();
 	int StateFoo(int bar);
 };
