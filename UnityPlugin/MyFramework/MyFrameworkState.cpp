@@ -96,7 +96,7 @@ char* MyFrameworkState::getPacket()
 
 }
 
-void MyFrameworkState::sendPacket(char * packet)
+void MyFrameworkState::sendPacket(char * packet, int size)
 {
-	peer->Send(packet, sizeof(packet), HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
+	peer->Send(packet, size, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
 }

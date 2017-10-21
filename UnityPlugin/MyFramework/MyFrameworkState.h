@@ -21,7 +21,7 @@ class MyFrameworkState
 public:
 	void init(int serverPort, char* ip);
 	char * getPacket();
-	void sendPacket(char* packet);
+	void sendPacket(char* packet, int size = 8);
 	int Networking();
 	int StateFoo(int bar);
 };

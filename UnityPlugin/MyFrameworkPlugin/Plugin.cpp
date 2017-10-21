@@ -23,11 +23,13 @@ enum Messages
 	INPUT_ID
 };
 
+#pragma pack(push, 1)
 struct BetaString
 {
 	int id = CHAT_ID;
 	char message[512];
 };
+#pragma pack(pop)
 
 int Startup()
 {
@@ -95,11 +97,11 @@ char * getNetworkPacket()
 	return theState->getPacket();	
 }
 
- void sendChatMessage(char message[512])
+ void sendChatMessage(char *message)
 {
 	 BetaString bs;
 	 strcpy(bs.message, message);
-	 theState->sendPacket((char*)&bs);
+	 theState->sendPacket((char*)&bs, sizeof(bs));
 }
 
 void sendNetworkPacket(char * packet)
