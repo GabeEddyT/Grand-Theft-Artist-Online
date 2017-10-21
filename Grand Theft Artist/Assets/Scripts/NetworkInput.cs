@@ -41,7 +41,8 @@ public class NetworkInput : MonoBehaviour {
 
     public Text ip;
     public Text serverPort;
-    public Text chatMess;
+    //public Text chatMess;
+    public InputField chatMess;
     bool initFlag = false;
 
     public struct InputMessage
@@ -175,6 +176,7 @@ public class NetworkInput : MonoBehaviour {
                 //Debug.Log(new string(theSood));
                 //Debug.Log(theSood);
                 //Console.WriteLine(*theSood);
+                
                 string outputPls = Marshal.PtrToStringAnsi((IntPtr)poi->pseudoString) ; /*new string(bs.pseudoString) +*/ //new string(poi->pseudoString);
                 Debug.Log(outputPls);
                 break;
