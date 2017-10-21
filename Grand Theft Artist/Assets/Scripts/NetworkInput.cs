@@ -213,4 +213,12 @@ public class NetworkInput : MonoBehaviour {
 
         //sendNetworkPacket(kappa);
     }
+
+    public unsafe void SendInput()
+    {
+        InputMessage im = new InputMessage();
+        im.id = (int)Messages.INPUT;
+        im.horizontal = Input.GetAxis("Horizontal");
+        im.vertical = Input.GetAxis("Vertical");
+    }
 }
