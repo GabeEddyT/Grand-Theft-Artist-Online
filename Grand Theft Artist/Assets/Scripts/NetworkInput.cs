@@ -37,7 +37,7 @@ public class NetworkInput : MonoBehaviour {
 
     enum Messages
     {
-        REQUEST_ACCEPTED = 16,
+        REQUEST_ACCEPTED = 1024 + 16,
         MESSAGE = 135,
         INPUT,
         GUID
@@ -50,7 +50,7 @@ public class NetworkInput : MonoBehaviour {
     public InputField chatMess;
     bool initFlag = false;
 
-    public struct InputMessage
+    public unsafe struct InputMessage
     {
         public int id;
         public float vertical;
@@ -140,7 +140,6 @@ public class NetworkInput : MonoBehaviour {
         //Debug.Log();
         initNetworking(port, ip.text);
         initFlag = true;
-        SetGUID();
     }
 
     unsafe void getPacket()
@@ -191,7 +190,9 @@ public class NetworkInput : MonoBehaviour {
                 Debug.Log("I shouldn't be *receiving* input...");
                 break;
             case Messages.REQUEST_ACCEPTED:
-                Debug.Log("Connection Request accepted!");
+                Debug.Log("Connection request accepted!");
+                SetGUID();
+                SendGUID();
                 break;
             default:
                 Debug.Log("Message with identifier: " + (int) packet[0]);
@@ -235,9 +236,11 @@ public class NetworkInput : MonoBehaviour {
         Marshal.StructureToPtr(im, myPtr, false);
     }
 
-    public unsafe void sendGUID()
+    public unsafe void SendGUID()
     {
-        
+        InputMessage im = new InputMessage();
+        im.id = (int)Messages.GUID;
+        im.guid = guid;
     }
 
     public unsafe void SetGUID()
