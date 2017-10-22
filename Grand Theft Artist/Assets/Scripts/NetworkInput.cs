@@ -75,6 +75,7 @@ public class NetworkInput : MonoBehaviour {
         if (initFlag)
         {
             getPacket();
+            SendInput();
             //initFlag = false;
         }
 	}
@@ -234,6 +235,7 @@ public class NetworkInput : MonoBehaviour {
         im.guid = guid;
         IntPtr myPtr = Marshal.AllocHGlobal(Marshal.SizeOf(im));
         Marshal.StructureToPtr(im, myPtr, false);
+        sendNetworkPacket(myPtr);
     }
 
     public unsafe void SendGUID()
@@ -241,6 +243,9 @@ public class NetworkInput : MonoBehaviour {
         InputMessage im = new InputMessage();
         im.id = (int)Messages.GUID;
         im.guid = guid;
+        IntPtr myPtr = Marshal.AllocHGlobal(Marshal.SizeOf(im));
+        Marshal.StructureToPtr(im, myPtr, false);
+        sendNetworkPacket(myPtr);
     }
 
     public unsafe void SetGUID()
