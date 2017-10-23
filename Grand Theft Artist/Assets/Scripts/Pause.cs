@@ -5,6 +5,7 @@ using UnityEngine;
 public class Pause : MonoBehaviour
 {
     public static bool paused = false;
+    public GameObject pauseText;
     int mash = 0;
 
 	// Use this for initialization
@@ -37,6 +38,7 @@ public class Pause : MonoBehaviour
             AudioListener.pause = false;
 
         }
+        pauseText.SetActive(paused);
     }
 
     public static void TogglePause(int mode = 0)

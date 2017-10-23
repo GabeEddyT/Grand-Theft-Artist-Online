@@ -6,7 +6,7 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     public float value;
-	public Player player;
+	Player player;
     public float held = 0f;
     Animator anim;
     bool destroyed = false;
@@ -16,7 +16,7 @@ public class Item : MonoBehaviour
 
     void Awake()
     {
-        Player []players = FindObjectsOfType<Player>();
+        Player[] players = FindObjectsOfType<Player>();
         player = players[0];
         foreach (Player item in players)
         {
@@ -153,8 +153,10 @@ public class Item : MonoBehaviour
         {
             held += Time.fixedDeltaTime;
             //Debug.Log(held);
+            
+
         }
-        
+
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -172,5 +174,8 @@ public class Item : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+       
+
     }
 }

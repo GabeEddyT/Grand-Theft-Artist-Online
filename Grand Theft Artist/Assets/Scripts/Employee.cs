@@ -148,6 +148,7 @@ public class Employee : MonoBehaviour
     float faceTime;
     void Survey()
     {
+       
         if (cone.IsTouching(player.GetComponent<CircleCollider2D>()) && (suspicion < suspectThreshold))
         {
             suspicion += Time.deltaTime;
@@ -424,15 +425,13 @@ public class Employee : MonoBehaviour
     //        }
     //    }
 
-    //    void OnTriggerEnter2D(Collider2D collision)
-    //    {
-    //        if (collision.name == "Player")
-    //        {
-    //            gameObject.GetComponent<PolygonCollider2D>().enabled = false;
-    //            gameObject.GetComponent<CircleCollider2D>().enabled = true;
-    //
-    //        }
-    //    }
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.IsTouchingLayers(LayerMask.NameToLayer("Player")))
+        {
+            player = collision.GetComponent<Player>();
+        }
+    }
     //
     //    void OnTriggerExit2D(Collider2D collided)
     //    {
