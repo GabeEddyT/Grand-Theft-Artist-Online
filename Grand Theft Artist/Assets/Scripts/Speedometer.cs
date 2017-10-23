@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class Speedometer : MonoBehaviour
 {
-    Player player;
+    public Player player;
     // Use this for initialization
     void Start()
     {
-        player = FindObjectOfType<Player>();
+        //player = FindObjectOfType<Player>();
     }
 	
     // Update is called once per frame

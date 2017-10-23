@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-
+    public int playerType = 1;
     public float maxspeed = 10f;
     public float speed = 0f;
     public Text mps;
@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     public float goalAmount = 1000.0f;
     public GameObject cart;
     public Camera cammy;
+
 
     public SpriteRenderer[] cartItems = new SpriteRenderer[4];
     int itemCount = 0;
@@ -65,7 +66,17 @@ public class Player : MonoBehaviour
     void Move()
     {
         relVel = speed > 0 ? rb.velocity.magnitude / 10.0f : rb.velocity.magnitude / -10.0f;
-        Vector3 rotVec = new Vector3(gameObject.transform.rotation.x, gameObject.transform.rotation.y, Input.GetAxis("Horizontal") * -5);       
+        Vector3 rotVec;
+        switch (playerType)
+        {
+            default:
+                rotVec = new Vector3(gameObject.transform.rotation.x, gameObject.transform.rotation.y, Input.GetAxis("Horizontal") * -5);
+
+                break;
+            case 2:
+                rotVec = new Vector3(gameObject.transform.rotation.x, gameObject.transform.rotation.y, Input.GetAxis("Horizontal2") * -5);
+                break;
+        }
 
         //gameObject.transform.TransformDirection(new Vector3(gameObject.transform.rotation.x, gameObject.transform.rotation.y, Input.GetAxis("Horizontal")));
 
@@ -87,7 +98,18 @@ public class Player : MonoBehaviour
         //Debug.Log(Input.GetAxis("Vertical"));
 
         //speed = Input.GetAxis("Vertical");
-		float gas = Input.GetAxis("Gas") ;
+        float gas;
+
+        switch (playerType)
+        {
+            default:
+                 gas = Input.GetAxis("Gas");
+                break;
+            case 2:
+                gas = Input.GetAxis("Gas2");
+                break;
+
+        }
         if (gas > 0)
         {
             //rb.mass = 0.01f;
@@ -183,7 +205,16 @@ public class Player : MonoBehaviour
         }
         else
         {
-            gameObject.GetComponent<Animator>().SetFloat("speed", Input.GetAxis("Horizontal"));
+            switch (playerType)
+            {
+                default:
+                    gameObject.GetComponent<Animator>().SetFloat("speed", Input.GetAxis("Horizontal"));
+
+                    break;
+                case 2:
+                    gameObject.GetComponent<Animator>().SetFloat("speed", Input.GetAxis("Horizontal2"));
+                    break;
+            }
         }
     }
 
@@ -233,16 +264,17 @@ public class Player : MonoBehaviour
         switch (cameraMode)
         {
             default:
-                Camera.main.transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
+                cammy.transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
                 break;
             case 1:
-                Camera.main.transform.rotation = transform.rotation;
+                cammy.transform.rotation = transform.rotation;
                 break;
         }
         //Debug.Log(relVel);
         //Debug.Log(1 / (Mathf.Abs(speed) + .1f));
-        Camera.main.transform.localPosition = Vector3.MoveTowards(Camera.main.transform.localPosition, new Vector3(0, 10.0f * (relVel / maxspeed), -20), ((Mathf.Abs(speed) + .1f)) * Time.deltaTime);
-        
+        cammy.transform.localPosition = Vector3.MoveTowards(cammy.transform.localPosition, new Vector3(0, 10.0f * (relVel / maxspeed), -20), ((Mathf.Abs(speed) + .1f)) * Time.deltaTime);
+
+
         //Debug.Log(Input.GetAxis("Camera"));
 
 

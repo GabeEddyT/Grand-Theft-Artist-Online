@@ -16,7 +16,15 @@ public class Item : MonoBehaviour
 
     void Awake()
     {
-		player = FindObjectOfType<Player>();
+        Player []players = FindObjectsOfType<Player>();
+        player = players[0];
+        foreach (Player item in players)
+        {
+            if (DistanceTo(item) < DistanceTo(player))
+            {
+                player = item;
+            }
+        }
     }
 
 	// Use this for initialization
@@ -28,6 +36,12 @@ public class Item : MonoBehaviour
         //Debug.Log(gameObject.layer);
         //Rigidbody2D childRB = gameObject.GetComponentInChildren<Rigidbody2D>();
         //childRB.gameObject.layer = gameObject.layer;
+    }
+
+    float DistanceTo(Player ob)
+    {
+        Vector3 diff = transform.position - ob.transform.position;
+        return diff.sqrMagnitude;
     }
 
 
