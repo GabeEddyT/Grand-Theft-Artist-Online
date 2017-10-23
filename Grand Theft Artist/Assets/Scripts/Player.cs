@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     public Image dollar;
     public float goalAmount = 1000.0f;
     public GameObject cart;
+    public Camera cammy;
 
     public SpriteRenderer[] cartItems = new SpriteRenderer[4];
     int itemCount = 0;
@@ -229,7 +230,6 @@ public class Player : MonoBehaviour
 
 
         }
-
         switch (cameraMode)
         {
             default:

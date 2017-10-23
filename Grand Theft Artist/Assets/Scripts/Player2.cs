@@ -21,6 +21,7 @@ public class Player2 : MonoBehaviour
     public Image dollar;
     public float goalAmount = 1000.0f;
     public GameObject cart;
+    public Camera cammy;
 
     public SpriteRenderer[] cartItems = new SpriteRenderer[4];
     int itemCount = 0;
@@ -229,19 +230,20 @@ public class Player2 : MonoBehaviour
 
 
         }
-
         switch (cameraMode)
         {
             default:
-                Camera.main.transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
+                cammy.transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
                 break;
             case 1:
-                Camera.main.transform.rotation = transform.rotation;
+                cammy.transform.rotation = transform.rotation;
                 break;
         }
+
+       
         //Debug.Log(relVel);
         //Debug.Log(1 / (Mathf.Abs(speed) + .1f));
-        Camera.main.transform.localPosition = Vector3.MoveTowards(Camera.main.transform.localPosition, new Vector3(0, 10.0f * (relVel / maxspeed), -20), ((Mathf.Abs(speed) + .1f)) * Time.deltaTime);
+        cammy.transform.localPosition = Vector3.MoveTowards(cammy.transform.localPosition, new Vector3(0, 10.0f * (relVel / maxspeed), -20), ((Mathf.Abs(speed) + .1f)) * Time.deltaTime);
         
         //Debug.Log(Input.GetAxis("Camera"));
 
