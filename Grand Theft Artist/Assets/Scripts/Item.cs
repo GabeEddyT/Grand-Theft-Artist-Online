@@ -7,6 +7,7 @@ public class Item : MonoBehaviour
 {
     public float value;
 	Player player;
+    Player []players;
     public float held = 0f;
     Animator anim;
     bool destroyed = false;
@@ -16,7 +17,7 @@ public class Item : MonoBehaviour
 
     void Awake()
     {
-        Player[] players = FindObjectsOfType<Player>();
+        players = FindObjectsOfType<Player>();
         player = players[0];
         foreach (Player item in players)
         {
@@ -153,8 +154,14 @@ public class Item : MonoBehaviour
         {
             held += Time.fixedDeltaTime;
             //Debug.Log(held);
-            
-
+            Player aplayer = collision.GetComponent<Player>();
+            foreach (Player item in players)
+            {
+                if (item == aplayer)
+                {
+                    player = item;
+                }
+            }
         }
 
     }
