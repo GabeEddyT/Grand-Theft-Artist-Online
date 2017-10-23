@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class Player : MonoBehaviour
+public class Player2 : MonoBehaviour
 {
 
     public float maxspeed = 10f;
@@ -64,7 +64,7 @@ public class Player : MonoBehaviour
     void Move()
     {
         relVel = speed > 0 ? rb.velocity.magnitude / 10.0f : rb.velocity.magnitude / -10.0f;
-        Vector3 rotVec = new Vector3(gameObject.transform.rotation.x, gameObject.transform.rotation.y, Input.GetAxis("Horizontal") * -5);       
+        Vector3 rotVec = new Vector3(gameObject.transform.rotation.x, gameObject.transform.rotation.y, Input.GetAxis("Horizontal2") * -5);       
 
         //gameObject.transform.TransformDirection(new Vector3(gameObject.transform.rotation.x, gameObject.transform.rotation.y, Input.GetAxis("Horizontal")));
 
@@ -86,7 +86,7 @@ public class Player : MonoBehaviour
         //Debug.Log(Input.GetAxis("Vertical"));
 
         //speed = Input.GetAxis("Vertical");
-		float gas = Input.GetAxis("Gas") ;
+		float gas = Input.GetAxis("Gas2");
         if (gas > 0)
         {
             //rb.mass = 0.01f;
@@ -182,7 +182,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            gameObject.GetComponent<Animator>().SetFloat("speed", Input.GetAxis("Horizontal"));
+            gameObject.GetComponent<Animator>().SetFloat("speed", Input.GetAxis("Horizontal2"));
         }
     }
 
