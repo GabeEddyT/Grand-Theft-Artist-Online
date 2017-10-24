@@ -97,7 +97,7 @@ public class Employee : MonoBehaviour
                 player = players[index];
             }
         }
-        index = (index + 1) % 2;
+        index = (index + 1) % players.Length;
     }
 
     void ChangeState()

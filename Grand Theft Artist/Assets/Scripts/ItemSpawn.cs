@@ -24,10 +24,10 @@ public class ItemSpawn : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Spawn(collision);
+        StartCoroutine( Spawn(collision));
     }
 
-    void Spawn(Collision2D collision)
+    IEnumerator Spawn(Collision2D collision)
     {
         Vector3 pos = collision.transform.position;
         //Debug.Log(collision.relativeVelocity.magnitude);
@@ -113,17 +113,18 @@ public class ItemSpawn : MonoBehaviour {
 				Matrix4x4 rotMat = Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0, 0, randomAngle), Vector3.one);
 				
 				rb.velocity = rotMat.MultiplyVector(vec);
-				//rb.AddForceAtPosition(Vector2.up * 24, rb.transform.position + new Vector3(4, 0));
+                //rb.AddForceAtPosition(Vector2.up * 24, rb.transform.position + new Vector3(4, 0));
 
-				//Debug.Log("Torque: " + rb.angularVelocity);
-				//childRB.velocity = Vector2.zero;
-				// rb.velocity = vec;            
-				//Debug.Log(rb.angularVelocity);
+                //Debug.Log("Torque: " + rb.angularVelocity);
+                //childRB.velocity = Vector2.zero;
+                // rb.velocity = vec;            
+                //Debug.Log(rb.angularVelocity);
 
-				
 
-				//ono.transform.localScale = Vector2.one * collision.relativeVelocity.magnitude;
-				// Debug.Log(item);
+
+                //ono.transform.localScale = Vector2.one * collision.relativeVelocity.magnitude;
+                // Debug.Log(item);
+                yield return null;
 			}
         }
     }
