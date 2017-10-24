@@ -11,6 +11,7 @@ public class Employee : MonoBehaviour
 {
 
     public Player player;
+    public Player[] players;
     CircleCollider2D circle;
     PolygonCollider2D cone;
     BoxCollider2D box;
@@ -50,7 +51,12 @@ public class Employee : MonoBehaviour
         lose,
         returnToStation
     }
-    
+
+    private void Awake()
+    {
+        players = FindObjectsOfType<Player>();
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -63,7 +69,12 @@ public class Employee : MonoBehaviour
         CalcAngle();
         defaultRotation = transform.rotation.eulerAngles.z;
     }
-
+    float DistanceTo(Player ob)
+    {
+        Vector3 diff = transform.position - ob.transform.position;
+        return diff.sqrMagnitude;
+    }
+    int index = 0;
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -72,7 +83,21 @@ public class Employee : MonoBehaviour
             ChangeState();
             gameObject.GetComponent<Animator>().SetFloat("Speed", gameObject.GetComponent<Rigidbody2D>().velocity.magnitude / 10.0f);
         }
+
         CalcAngle();
+        
+    }
+
+    private void Update()
+    {
+        if (players[index] != player)
+        {
+            if (DistanceTo(players[index]) < DistanceTo(player))
+            {
+                player = players[index];
+            }
+        }
+        index = (index + 1) % 2;
     }
 
     void ChangeState()
