@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class EndGame : MonoBehaviour {
-    Player player;
+    public Player player;
     BoxCollider2D box;
 	// Use this for initialization
 	void Start () {
-        player = FindObjectOfType<Player>();
+        //player = FindObjectOfType<Player>();
         box = GetComponent<BoxCollider2D>();
 	}
 	
@@ -20,7 +20,7 @@ public class EndGame : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag.Equals("Player"))
+        if (collision.name == player.name)
         {
             SceneManager.LoadScene(3);
         }
