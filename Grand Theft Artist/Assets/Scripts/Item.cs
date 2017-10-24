@@ -19,13 +19,7 @@ public class Item : MonoBehaviour
     {
         players = FindObjectsOfType<Player>();
         player = players[0];
-        foreach (Player item in players)
-        {
-            if (DistanceTo(item) < DistanceTo(player))
-            {
-                player = item;
-            }
-        }
+       
     }
 
 	// Use this for initialization
@@ -123,6 +117,13 @@ public class Item : MonoBehaviour
         //Debug.Log(held);
         if (held > .1f)
         {
+            foreach (Player item in players)
+            {
+                if (DistanceTo(item) < DistanceTo(player))
+                {
+                    player = item;
+                }
+            }
             //transform.position = player.transform.position;
             anim.enabled = true;
             gameObject.GetComponent<Animator>().Play("Stolen");
