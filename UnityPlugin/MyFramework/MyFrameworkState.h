@@ -7,7 +7,7 @@
 
 struct InputMessage
 {
-	int id = 0;
+	unsigned char id = 0;
 	float vertical = 0.0f;
 	float horizontal = 0.0f;
 };

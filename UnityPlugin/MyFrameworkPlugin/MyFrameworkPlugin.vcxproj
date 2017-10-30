@@ -23,7 +23,7 @@
     <ProjectGuid>{76E8CCA1-5B7C-4D9F-AEB3-DC9BFBEC66D2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>MyFrameworkPlugin</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

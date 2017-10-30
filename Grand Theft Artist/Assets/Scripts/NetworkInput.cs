@@ -32,14 +32,13 @@ public class NetworkInput : MonoBehaviour {
     [DllImport("MyFrameworkPlugin")]
     static extern unsafe IntPtr getGUID();
     // Use this for initialization
-    bool inputFlag = false;
 
 
     enum Messages
     {
         REQUEST_ACCEPTED = 1024 + 16,
         MESSAGE = 135,
-        INPUT =60,
+        INPUT = 136,
         GUID
     }
 
@@ -49,6 +48,8 @@ public class NetworkInput : MonoBehaviour {
     //public Text chatMess;
     public InputField chatMess;
     bool initFlag = false;
+    bool inputFlag = false;
+
 
     public unsafe struct InputMessage
     {
@@ -76,7 +77,7 @@ public class NetworkInput : MonoBehaviour {
         {
             getPacket();
 
-            //initFlag = false;
+            //    //initFlag = false;
         }
         if (inputFlag)
         {
@@ -198,10 +199,9 @@ public class NetworkInput : MonoBehaviour {
                 Debug.Log("Connection request accepted!");
                 
                 SendGUID();
-                initFlag = true;
                 break;
             default:
-                Debug.Log("Message with identifier: " + (int) packet[0]);
+                Debug.Log("Message with identifier: " + (byte) packet[0]);
                 break;
         }
     }
@@ -257,5 +257,6 @@ public class NetworkInput : MonoBehaviour {
     public unsafe void SetGUID()
     {
         guid = Marshal.PtrToStringAnsi(getGUID());
+        initFlag = true;
     }
 }
