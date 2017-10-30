@@ -26,7 +26,7 @@ enum Messages
 #pragma pack(push, 1)
 struct BetaString
 {
-	int id = CHAT_ID;
+	unsigned char id = CHAT_ID;
 	char message[512];
 };
 #pragma pack(pop)
