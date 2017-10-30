@@ -56,7 +56,7 @@ public class NetworkInput : MonoBehaviour {
         public byte id;
         public float vertical;
         public float horizontal;
-        public string guid;
+        public UInt64 guid;
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -237,7 +237,7 @@ public class NetworkInput : MonoBehaviour {
         im.id = (byte)Messages.INPUT;
         im.horizontal = Input.GetAxis("Horizontal");
         im.vertical = Input.GetAxis("Vertical");
-        im.guid = guid;
+        im.guid = UInt64.Parse(guid);
         int size = Marshal.SizeOf(im);
         IntPtr myPtr = Marshal.AllocHGlobal(size);
         Marshal.StructureToPtr(im, myPtr, false);
@@ -250,7 +250,8 @@ public class NetworkInput : MonoBehaviour {
         im.id = (byte)Messages.GUID;
         im.horizontal = 0.0f;
         im.vertical = 0.0f;
-        im.guid = guid;
+        im.guid = UInt64.Parse(guid);
+
         int size = Marshal.SizeOf(im);
         IntPtr myPtr = Marshal.AllocHGlobal(size);
         Marshal.StructureToPtr(im, myPtr, false);
