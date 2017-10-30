@@ -26,7 +26,7 @@ public class NetworkInput : MonoBehaviour {
     [DllImport("MyFrameworkPlugin")]
     static extern unsafe char* getNetworkPacket();
     [DllImport("MyFrameworkPlugin")]
-    static extern void sendNetworkPacket(IntPtr packet);
+    static extern void sendNetworkPacket(IntPtr packet, int size = 8);
     [DllImport("MyFrameworkPlugin")]
     static extern unsafe void  sendChatMessage(string message);
     [DllImport("MyFrameworkPlugin")]
@@ -36,7 +36,7 @@ public class NetworkInput : MonoBehaviour {
 
     enum Messages
     {
-        REQUEST_ACCEPTED = 1024 + 16,
+        REQUEST_ACCEPTED = 16,
         MESSAGE = 135,
         INPUT = 136,
         GUID
@@ -50,7 +50,7 @@ public class NetworkInput : MonoBehaviour {
     bool initFlag = false;
     bool inputFlag = false;
 
-
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public unsafe struct InputMessage
     {
         public byte id;
@@ -59,7 +59,7 @@ public class NetworkInput : MonoBehaviour {
         public string guid;
     }
 
-    
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public unsafe struct BetaString
     {
         public byte id;
@@ -171,9 +171,9 @@ public class NetworkInput : MonoBehaviour {
 
         //Debug.Log(packet[0]);
        // char* cPack = (char*) packet;
-        switch ((Messages)packet[0])
+        switch ((byte)packet[0])
         {
-            case Messages.MESSAGE:
+            case (byte)Messages.MESSAGE:
   
                 IntPtr care = (IntPtr) packet;
                 BetaString* poi = (BetaString*)care;
@@ -192,10 +192,10 @@ public class NetworkInput : MonoBehaviour {
                 string outputPls = Marshal.PtrToStringAnsi((IntPtr)poi->pseudoString) ; /*new string(bs.pseudoString) +*/ //new string(poi->pseudoString);
                 Debug.Log(outputPls);
                 break;
-            case Messages.INPUT:
+            case (byte)Messages.INPUT:
                 Debug.Log("I shouldn't be *receiving* input...");
                 break;
-            case Messages.REQUEST_ACCEPTED:
+            case (byte)Messages.REQUEST_ACCEPTED:
                 Debug.Log("Connection request accepted!");
                 
                 SendGUID();
@@ -238,9 +238,10 @@ public class NetworkInput : MonoBehaviour {
         im.horizontal = Input.GetAxis("Horizontal");
         im.vertical = Input.GetAxis("Vertical");
         im.guid = guid;
-        IntPtr myPtr = Marshal.AllocHGlobal(Marshal.SizeOf(im));
+        int size = Marshal.SizeOf(im);
+        IntPtr myPtr = Marshal.AllocHGlobal(size);
         Marshal.StructureToPtr(im, myPtr, false);
-        sendNetworkPacket(myPtr);
+        sendNetworkPacket(myPtr, size);
     }
 
     public unsafe void SendGUID()
@@ -248,9 +249,10 @@ public class NetworkInput : MonoBehaviour {
         InputMessage im = new InputMessage();
         im.id = (byte)Messages.GUID;
         im.guid = guid;
-        IntPtr myPtr = Marshal.AllocHGlobal(Marshal.SizeOf(im));
+        int size = Marshal.SizeOf(im);
+        IntPtr myPtr = Marshal.AllocHGlobal(size);
         Marshal.StructureToPtr(im, myPtr, false);
-        sendNetworkPacket(myPtr);
+        sendNetworkPacket(myPtr, size);
         inputFlag = true;
     }
 

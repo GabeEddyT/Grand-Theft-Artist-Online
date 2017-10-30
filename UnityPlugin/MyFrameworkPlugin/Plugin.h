@@ -21,7 +21,7 @@ extern "C"
 	MYPLUGIN_SYMBOL int initNetworking(int serverPort, char* ip);
 	MYPLUGIN_SYMBOL char* getNetworkPacket();
 	MYPLUGIN_SYMBOL void sendChatMessage(char* message);
-	MYPLUGIN_SYMBOL void sendNetworkPacket(char* packet);
+	MYPLUGIN_SYMBOL void sendNetworkPacket(char* packet, int size = 8);
 	MYPLUGIN_SYMBOL const char* getGUID();
 
 

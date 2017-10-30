@@ -109,7 +109,7 @@ char * getNetworkPacket()
 	 theState->sendPacket((char*)&bs, sizeof(bs));
 }
 
-void sendNetworkPacket(char * packet)
+void sendNetworkPacket(char * packet, int size)
 {
 	theState->sendPacket(packet);
 }
