@@ -52,7 +52,7 @@ public class NetworkInput : MonoBehaviour {
 
     public unsafe struct InputMessage
     {
-        public int id;
+        public byte id;
         public float vertical;
         public float horizontal;
         public string guid;
@@ -61,7 +61,7 @@ public class NetworkInput : MonoBehaviour {
     
     public unsafe struct BetaString
     {
-        public int id;
+        public byte id;
         public fixed char pseudoString[512];
     }
 
@@ -234,7 +234,7 @@ public class NetworkInput : MonoBehaviour {
     public unsafe void SendInput()
     {
         InputMessage im = new InputMessage();
-        im.id = (int)Messages.INPUT;
+        im.id = (byte)Messages.INPUT;
         im.horizontal = Input.GetAxis("Horizontal");
         im.vertical = Input.GetAxis("Vertical");
         im.guid = guid;
@@ -246,7 +246,7 @@ public class NetworkInput : MonoBehaviour {
     public unsafe void SendGUID()
     {
         InputMessage im = new InputMessage();
-        im.id = (int)Messages.GUID;
+        im.id = (byte)Messages.GUID;
         im.guid = guid;
         IntPtr myPtr = Marshal.AllocHGlobal(Marshal.SizeOf(im));
         Marshal.StructureToPtr(im, myPtr, false);
