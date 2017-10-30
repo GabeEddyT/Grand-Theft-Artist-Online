@@ -111,5 +111,5 @@ char * getNetworkPacket()
 
 void sendNetworkPacket(char * packet, int size)
 {
-	theState->sendPacket(packet);
+	theState->sendPacket(packet, size);
 }

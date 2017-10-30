@@ -26,7 +26,7 @@ public class NetworkInput : MonoBehaviour {
     [DllImport("MyFrameworkPlugin")]
     static extern unsafe char* getNetworkPacket();
     [DllImport("MyFrameworkPlugin")]
-    static extern void sendNetworkPacket(IntPtr packet, int size = 8);
+    static extern void sendNetworkPacket(IntPtr packet, int size);
     [DllImport("MyFrameworkPlugin")]
     static extern unsafe void  sendChatMessage(string message);
     [DllImport("MyFrameworkPlugin")]
@@ -248,10 +248,13 @@ public class NetworkInput : MonoBehaviour {
     {
         InputMessage im = new InputMessage();
         im.id = (byte)Messages.GUID;
+        im.horizontal = 0.0f;
+        im.vertical = 0.0f;
         im.guid = guid;
         int size = Marshal.SizeOf(im);
         IntPtr myPtr = Marshal.AllocHGlobal(size);
         Marshal.StructureToPtr(im, myPtr, false);
+        int ptrSize = Marshal.SizeOf(myPtr);
         sendNetworkPacket(myPtr, size);
         inputFlag = true;
     }
