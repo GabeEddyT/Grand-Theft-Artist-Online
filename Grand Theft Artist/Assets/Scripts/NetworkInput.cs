@@ -84,7 +84,7 @@ public class NetworkInput : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        if (inputFlag && Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Gas") != 0 ||Input.GetAxis("Vertical") != 0)
+        if (inputFlag /*&& Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Gas") != 0 ||Input.GetAxis("Vertical") != 0*/)
         {
             SendInput();
         }
