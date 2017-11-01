@@ -84,10 +84,10 @@ public class NetworkInput : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        if (inputFlag /*&& Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Gas") != 0 ||Input.GetAxis("Vertical") != 0*/)
-        {
-            SendInput();
-        }
+        //if (inputFlag /*&& Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Gas") != 0 ||Input.GetAxis("Vertical") != 0*/)
+        //{
+        //    SendInput();
+        //}
     }
 
     //unsafe void debugCstring()
@@ -236,17 +236,22 @@ public class NetworkInput : MonoBehaviour {
         //sendNetworkPacket(kappa);
     }
 
-    public unsafe void SendInput()
+    IEnumerator SendInput()
     {
-        InputMessage im = new InputMessage();
-        im.id = (byte)Messages.INPUT;
-        im.horizontal = Input.GetAxis("Horizontal");
-        im.vertical = Input.GetAxis("Gas");
-        im.guid = UInt64.Parse(guid);
-        int size = Marshal.SizeOf(im);
-        IntPtr myPtr = Marshal.AllocHGlobal(size);
-        Marshal.StructureToPtr(im, myPtr, false);
-        sendNetworkPacket(myPtr, size);
+        while(true)
+        {
+            InputMessage im = new InputMessage();
+            im.id = (byte)Messages.INPUT;
+            im.horizontal = Input.GetAxis("Horizontal");
+            im.vertical = Input.GetAxis("Gas");
+            im.guid = UInt64.Parse(guid);
+            int size = Marshal.SizeOf(im);
+            IntPtr myPtr = Marshal.AllocHGlobal(size);
+            Marshal.StructureToPtr(im, myPtr, false);
+            sendNetworkPacket(myPtr, size);
+            yield return new WaitForSeconds(.034f);
+        }
+        
     }
 
     public unsafe void SendGUID()
@@ -263,6 +268,7 @@ public class NetworkInput : MonoBehaviour {
         int ptrSize = Marshal.SizeOf(myPtr);
         sendNetworkPacket(myPtr, size);
         inputFlag = true;
+        StartCoroutine(SendInput());
     }
 
     public unsafe void SetGUID()
