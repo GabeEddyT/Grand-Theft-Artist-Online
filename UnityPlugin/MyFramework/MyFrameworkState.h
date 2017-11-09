@@ -19,6 +19,7 @@ class MyFrameworkState
 
 	RakNet::RakPeerInterface *peer;
 public:
+	~MyFrameworkState();
 	void init(int serverPort, char* ip);
 	char * getPacket();
 	void sendPacket(char* packet, int size = 8);

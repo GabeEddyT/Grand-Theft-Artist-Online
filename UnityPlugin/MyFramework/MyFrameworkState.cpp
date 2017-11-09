@@ -14,6 +14,12 @@ int MyFrameworkState::StateFoo(int bar)
 	return (bar * bar);
 }
 
+MyFrameworkState::~MyFrameworkState()
+{
+	peer->Shutdown(0);
+	RakNet::RakPeerInterface::DestroyInstance(peer);
+}
+
 void MyFrameworkState::init(int serverPort, char* ip = "127.0.0.1")
 {
 

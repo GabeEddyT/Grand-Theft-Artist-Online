@@ -10,6 +10,8 @@ public class NetworkInput : MonoBehaviour {
 
     [DllImport("MyFrameworkPlugin")]
     static extern int Startup();
+    [DllImport("MyFrameworkPlugin")]
+    static extern int Shutdown();
 
     [DllImport("MyFrameworkPlugin")]
     static extern unsafe char* CStringTest();
@@ -68,6 +70,7 @@ public class NetworkInput : MonoBehaviour {
 
     void Start () {
         //sendAndReceiveStruct();
+        Shutdown();
         Startup();
 	}
 	
