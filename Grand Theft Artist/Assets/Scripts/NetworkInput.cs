@@ -208,6 +208,9 @@ public class NetworkInput : MonoBehaviour {
                 
                 SendGUID();
                 break;
+            case (byte)Messages.GUID:
+                Debug.Log("GUID successfully received by server");
+                break;
             default:
                 Debug.Log("Message with identifier: " + (byte) packet[0]);
                 break;
