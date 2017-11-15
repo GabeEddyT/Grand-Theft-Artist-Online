@@ -227,9 +227,11 @@ public class NetworkInput : MonoBehaviour {
         if (initFlag)
         {
 
-            string s = chatMess.text;
-            sendChatMessage(s);
-            Debug.Log("Me: " + chatMess.text);
+
+            BetaString bs;
+            bs.id = (byte)Messages.MESSAGE;
+            bs.pseudoString = ToByte(String.IsNullOrEmpty(chatName.text) ? guid : chatName.text + " says: " + chatMess.text);
+            SendPkt(bs);
         }
         ////BetaString bs = new BetaString((int)Messages.MESSAGE);
         //bs.id = (int)Messages.MESSAGE;
