@@ -7,6 +7,8 @@ using UnityEngine.UI;
 using System.Runtime.InteropServices;
 
 
+
+
 public class NetworkInput : MonoBehaviour {
 
     [DllImport("MyFrameworkPlugin")]
@@ -279,6 +281,31 @@ public class NetworkInput : MonoBehaviour {
         sendNetworkPacket(myPtr, size);
         inputFlag = true;
         StartCoroutine(SendInput());
+
+
+        BetaString bs = new BetaString();
+        bs.id = (byte)Messages.MESSAGE;
+        bs.pseudoString = ToByte(String.IsNullOrEmpty(chatName.text) ? guid : chatName.text + " has connected.");
+        SendPkt(bs);
+    }
+
+    /* *
+     * Generic method to abstract the conversion to IntPtr when sending packet. 
+     * */
+    void SendPkt<T>(T pkt)
+    {
+        int size = Marshal.SizeOf(pkt);
+        IntPtr myPtr = Marshal.AllocHGlobal(size);
+        Marshal.StructureToPtr(pkt, myPtr, false);
+        sendNetworkPacket(myPtr, size);
+    }
+
+    /* *
+    * Abstract the conversion of strings to byte arrays. 
+    * */
+    byte[] ToByte(string s)
+    {
+        return Encoding.ASCII.GetBytes(s);
     }
 
     public unsafe void SetGUID()
