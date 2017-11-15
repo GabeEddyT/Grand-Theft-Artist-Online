@@ -287,7 +287,7 @@ public class NetworkInput : MonoBehaviour {
 
         BetaString bs = new BetaString();
         bs.id = (byte)Messages.MESSAGE;
-        bs.pseudoString = ToByte(String.IsNullOrEmpty(chatName.text) ? guid : chatName.text + " has connected.");
+        bs.pseudoString = ToByte((String.IsNullOrEmpty(chatName.text) ? guid : chatName.text) + " has connected.");
         SendPkt(bs);
     }
 
