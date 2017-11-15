@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Runtime.InteropServices;
@@ -47,6 +48,7 @@ public class NetworkInput : MonoBehaviour {
     string guid;
     public Text ip;
     public Text serverPort;
+    public Text chatName;
     //public Text chatMess;
     public InputField chatMess;
     bool initFlag = false;
@@ -65,7 +67,8 @@ public class NetworkInput : MonoBehaviour {
     public unsafe struct BetaString
     {
         public byte id;
-        public fixed char pseudoString[512];
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 512)]
+        public byte [] pseudoString;
     }
 
     void Start () {
@@ -184,7 +187,7 @@ public class NetworkInput : MonoBehaviour {
             case (byte)Messages.MESSAGE:
   
                 IntPtr care = (IntPtr) packet;
-                BetaString* poi = (BetaString*)care;
+                BetaString bs = (BetaString)Marshal.PtrToStructure(care, typeof(BetaString));
                 //BetaString bs = *(BetaString*) packet;
                 //char* cs = bs.pseudoString;
                 //string likeActualString = new string(cs);
@@ -196,8 +199,8 @@ public class NetworkInput : MonoBehaviour {
                 //Debug.Log(new string(theSood));
                 //Debug.Log(theSood);
                 //Console.WriteLine(*theSood);
-                
-                string outputPls = Marshal.PtrToStringAnsi((IntPtr)poi->pseudoString) ; /*new string(bs.pseudoString) +*/ //new string(poi->pseudoString);
+                string outputPls = Encoding.ASCII.GetString(bs.pseudoString);
+                //string outputPls = ; /*new string(bs.pseudoString) +*/ //new string(poi->pseudoString);
                 Debug.Log(outputPls);
                 break;
             case (byte)Messages.INPUT:
@@ -221,6 +224,7 @@ public class NetworkInput : MonoBehaviour {
     {
         if (initFlag)
         {
+
             string s = chatMess.text;
             sendChatMessage(s);
             Debug.Log("Me: " + chatMess.text);
