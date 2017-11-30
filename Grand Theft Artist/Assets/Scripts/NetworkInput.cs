@@ -257,6 +257,7 @@ public class NetworkInput : MonoBehaviour {
             IntPtr myPtr = Marshal.AllocHGlobal(size);
             Marshal.StructureToPtr(im, myPtr, false);
             sendNetworkPacket(myPtr, size);
+            Marshal.FreeHGlobal(myPtr);
             yield return new WaitForSeconds(.034f);
         }
         
@@ -271,6 +272,7 @@ public class NetworkInput : MonoBehaviour {
         IntPtr myPtr = Marshal.AllocHGlobal(size);
         Marshal.StructureToPtr(pkt, myPtr, false);
         sendNetworkPacket(myPtr, size);
+        Marshal.FreeHGlobal(myPtr);
     }
 
     /* *
