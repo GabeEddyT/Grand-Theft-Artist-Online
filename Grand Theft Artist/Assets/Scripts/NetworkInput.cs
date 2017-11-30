@@ -73,9 +73,12 @@ public class NetworkInput : MonoBehaviour {
     }
 
     void Start () {
+        UnityEditor.EditorApplication.playModeStateChanged += OnPlayOrStop;
+
         //sendAndReceiveStruct();
         Shutdown();
         Startup();
+        
 	}
 	
 	// Update is called once per frame
@@ -86,7 +89,32 @@ public class NetworkInput : MonoBehaviour {
 
             //    //initFlag = false;
         }
-        
+    }
+
+
+
+    private void OnPlayOrStop(UnityEditor.PlayModeStateChange obj)
+    {
+        switch (obj)
+        {
+            case UnityEditor.PlayModeStateChange.EnteredEditMode:
+                break;
+            case UnityEditor.PlayModeStateChange.ExitingEditMode:
+                break;
+            case UnityEditor.PlayModeStateChange.EnteredPlayMode:
+                break;
+            case UnityEditor.PlayModeStateChange.ExitingPlayMode:                
+                    Disconnect();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        Disconnect();
+        Shutdown();
     }
 
     private void FixedUpdate()
@@ -153,11 +181,24 @@ public class NetworkInput : MonoBehaviour {
 
     public void ConnectToRakNet()
     {
+        if (initFlag)
+        {
+            Disconnect();
+        }
         // = ip.text;
         int port = Int32.Parse(serverPort.text);
         //Debug.Log();
         initNetworking(port, ip.text);
         SetGUID();
+    }
+
+    
+
+    void Disconnect()
+    {
+        IntPtr pac = Marshal.AllocHGlobal(1);
+        Marshal.WriteByte(pac, 31);
+        sendNetworkPacket(pac, 1);
     }
 
     unsafe void getPacket()
@@ -221,8 +262,6 @@ public class NetworkInput : MonoBehaviour {
     {
         if (initFlag)
         {
-
-
             BetaString bs;
             bs.id = (byte)Messages.MESSAGE;
             bs.pseudoString = ToByte(String.IsNullOrEmpty(chatName.text) ? guid : chatName.text + " says: " + chatMess.text);
