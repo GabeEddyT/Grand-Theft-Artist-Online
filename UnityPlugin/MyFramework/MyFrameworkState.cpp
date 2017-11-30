@@ -16,7 +16,7 @@ int MyFrameworkState::StateFoo(int bar)
 
 MyFrameworkState::~MyFrameworkState()
 {
-	peer->Shutdown(0);
+	peer->Shutdown(0, (unsigned char)'\000', IMMEDIATE_PRIORITY);
 	RakNet::RakPeerInterface::DestroyInstance(peer);
 }
 

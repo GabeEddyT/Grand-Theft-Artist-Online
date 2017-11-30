@@ -62,14 +62,13 @@ public class NetworkInput : MonoBehaviour {
         public byte id;
         public float vertical;
         public float horizontal;
-        public UInt64 guid;
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public unsafe struct BetaString
     {
         public byte id;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 512)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
         public byte [] pseudoString;
     }
 
@@ -210,11 +209,7 @@ public class NetworkInput : MonoBehaviour {
                 break;
             case (byte)Messages.REQUEST_ACCEPTED:
                 Debug.Log("Connection request accepted!");
-                
-                SendGUID();
-                break;
-            case (byte)Messages.GUID:
-                Debug.Log("GUID successfully received by server");
+                StartCoroutine(SendInput());
                 break;
             default:
                 Debug.Log("Message with identifier: " + (byte) packet[0]);
@@ -258,7 +253,6 @@ public class NetworkInput : MonoBehaviour {
             im.id = (byte)Messages.INPUT;
             im.horizontal = Input.GetAxis("Horizontal");
             im.vertical = Input.GetAxis("Gas");
-            im.guid = UInt64.Parse(guid);
             int size = Marshal.SizeOf(im);
             IntPtr myPtr = Marshal.AllocHGlobal(size);
             Marshal.StructureToPtr(im, myPtr, false);
@@ -266,29 +260,6 @@ public class NetworkInput : MonoBehaviour {
             yield return new WaitForSeconds(.034f);
         }
         
-    }
-
-    public unsafe void SendGUID()
-    {
-        InputMessage im = new InputMessage();
-        im.id = (byte)Messages.GUID;
-        im.horizontal = 0.0f;
-        im.vertical = 0.0f;
-        im.guid = UInt64.Parse(guid);
-
-        int size = Marshal.SizeOf(im);
-        IntPtr myPtr = Marshal.AllocHGlobal(size);
-        Marshal.StructureToPtr(im, myPtr, false);
-        int ptrSize = Marshal.SizeOf(myPtr);
-        sendNetworkPacket(myPtr, size);
-        inputFlag = true;
-        StartCoroutine(SendInput());
-
-
-        BetaString bs = new BetaString();
-        bs.id = (byte)Messages.MESSAGE;
-        bs.pseudoString = ToByte((String.IsNullOrEmpty(chatName.text) ? guid : chatName.text) + " has connected.");
-        SendPkt(bs);
     }
 
     /* *
