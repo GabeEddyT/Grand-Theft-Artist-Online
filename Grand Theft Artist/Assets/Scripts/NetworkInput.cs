@@ -73,8 +73,9 @@ public class NetworkInput : MonoBehaviour {
     }
 
     void Start () {
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.playModeStateChanged += OnPlayOrStop;
-
+#endif
         //sendAndReceiveStruct();
         Shutdown();
         Startup();
@@ -92,7 +93,7 @@ public class NetworkInput : MonoBehaviour {
     }
 
 
-
+#if UNITY_EDITOR
     private void OnPlayOrStop(UnityEditor.PlayModeStateChange obj)
     {
         switch (obj)
@@ -110,6 +111,7 @@ public class NetworkInput : MonoBehaviour {
                 break;
         }
     }
+#endif
 
     private void OnDestroy()
     {
