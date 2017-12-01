@@ -111,6 +111,11 @@ public class NetworkInput : MonoBehaviour {
                 break;
         }
     }
+#else
+    void OnApplicationQuit()
+    {
+        Disconnect();
+    }
 #endif
 
     private void OnDestroy()
