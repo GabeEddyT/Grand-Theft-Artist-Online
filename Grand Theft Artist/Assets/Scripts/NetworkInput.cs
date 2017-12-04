@@ -49,6 +49,7 @@ public class NetworkInput : MonoBehaviour {
         GAMESTATE,
     }
 
+    public Transform player;
     string guid;
     public Text ip;
     public Text serverPort;
@@ -59,14 +60,15 @@ public class NetworkInput : MonoBehaviour {
     bool inputFlag = false;
 
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 81)]
     public unsafe struct GameState
     {
         public byte id;
         public fixed float playerPosX[4];
         public fixed float playerPosY[4];
-        public fixed float playerRotation[4];
-    }
+        public fixed float playerRotation [4];
+        //public Vector2[] playerVelocity = new Vector2[4];
+    };
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public unsafe struct InputMessage
@@ -265,6 +267,8 @@ public class NetworkInput : MonoBehaviour {
                 break;
             case (byte)Messages.REQUEST_ACCEPTED:
                 Debug.Log("Connection request accepted!");
+                FindObjectOfType<Canvas>().enabled = false;
+
                 StartCoroutine(SendInput());
                 break;
             case (byte)Messages.GAMESTATE:
@@ -282,8 +286,15 @@ public class NetworkInput : MonoBehaviour {
         Debug.Log("Received new Game State");
         GameState newData = (GameState)Marshal.PtrToStructure(packet, typeof(GameState));
 
+        Vector2 posisiton = player.position;
+        posisiton.x = newData.playerPosX[0];
+        posisiton.y = newData.playerPosY[0];
+        player.position = posisiton;
 
-        Debug.Log(newData.playerPosX[0] + "  " + newData.playerPosY[0] + "  " + newData.playerRotation[0]);
+        Quaternion rot = player.rotation;
+        rot.z = newData.playerRotation[0];
+        player.rotation = rot;
+        Debug.Log(newData.playerPosX[0] + "  " + newData.playerPosY[0] + "  " + newData.playerRotation[0] );
     }
 
     public unsafe void SendChat()
