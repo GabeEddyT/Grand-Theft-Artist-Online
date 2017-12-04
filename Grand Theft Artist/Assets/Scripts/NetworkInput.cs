@@ -49,7 +49,7 @@ public class NetworkInput : MonoBehaviour {
         GAMESTATE,
     }
     public Canvas netMenu;
-    public Transform player;
+    public Player []players;
     string guid;
     public Text ip;
     public Text serverPort;
@@ -96,6 +96,7 @@ public class NetworkInput : MonoBehaviour {
         //sendAndReceiveStruct();
         //Shutdown();
         Startup();
+        players = FindObjectsOfType<Player>();
         
 	}
 	
@@ -239,16 +240,19 @@ public class NetworkInput : MonoBehaviour {
     {
         Debug.Log("Received new Game State");
         GameState newData = (GameState)Marshal.PtrToStructure(packet, typeof(GameState));
+        for (int i = 0; i < 4; i++)
+        {
+            Vector2 posisiton = players[i].transform.position;
+            posisiton.x = newData.playerPosX[i];
+            posisiton.y = newData.playerPosY[i];
+            players[i].transform.position = posisiton;
+            players[i].GetComponent<Rigidbody2D>().velocity = newData.playerVelocity[0];
 
-        Vector2 posisiton = player.position;
-        posisiton.x = newData.playerPosX[0];
-        posisiton.y = newData.playerPosY[0];
-        player.position = posisiton;
-        player.GetComponent<Rigidbody2D>().velocity = newData.playerVelocity[0];
-
-        Quaternion rot = player.rotation;
-        rot.z = newData.playerRotation[0];
-        player.rotation = rot;
+            Quaternion rot = players[i].transform.rotation;
+            rot.z = newData.playerRotation[i];
+            players[i].transform.rotation = rot;
+        }
+        
         Debug.Log(newData.playerPosX[0] + "  " + newData.playerPosY[0] + "  " + newData.playerRotation[0] + " " + newData.playerVelocity[0].ToString() );
     }
 
