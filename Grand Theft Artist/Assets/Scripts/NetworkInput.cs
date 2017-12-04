@@ -58,6 +58,7 @@ public class NetworkInput : MonoBehaviour {
     public InputField chatMess;
     bool initFlag = false;
     bool inputFlag = false;
+    public static bool networkedMode = false;
 
 
     [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 81)]
@@ -67,7 +68,8 @@ public class NetworkInput : MonoBehaviour {
         public fixed float playerPosX[4];
         public fixed float playerPosY[4];
         public fixed float playerRotation [4];
-        //public Vector2[] playerVelocity = new Vector2[4];
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
+        public Vector2[] playerVelocity;
     };
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -87,6 +89,7 @@ public class NetworkInput : MonoBehaviour {
     }
 
     void Start () {
+        networkedMode = true;
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.playModeStateChanged += OnPlayOrStop;
 #endif
@@ -131,6 +134,11 @@ public class NetworkInput : MonoBehaviour {
         Disconnect();
     }
 #endif    
+
+    private void OnDestroy()
+    {
+        networkedMode = false;
+    }
 
     private void FixedUpdate()
     {
@@ -294,7 +302,7 @@ public class NetworkInput : MonoBehaviour {
         Quaternion rot = player.rotation;
         rot.z = newData.playerRotation[0];
         player.rotation = rot;
-        Debug.Log(newData.playerPosX[0] + "  " + newData.playerPosY[0] + "  " + newData.playerRotation[0] );
+        Debug.Log(newData.playerPosX[0] + "  " + newData.playerPosY[0] + "  " + newData.playerRotation[0] + " " + newData.playerVelocity[0].ToString() );
     }
 
     public unsafe void SendChat()
