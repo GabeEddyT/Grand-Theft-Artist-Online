@@ -187,9 +187,9 @@ public class NetworkInput : MonoBehaviour {
             Disconnect();
         }
         // = ip.text;
-        int port = Int32.Parse(serverPort.text);
+        int port = Int32.Parse(serverPort.text == "" ? "60" : serverPort.text);
         //Debug.Log();
-        initNetworking(port, ip.text);
+        initNetworking(port, ip.text == "" ? "127.0.0.1" : ip.text);
         SetGUID();
     }
 
@@ -232,8 +232,7 @@ public class NetworkInput : MonoBehaviour {
         {
             case (byte)Messages.MESSAGE:
   
-                IntPtr care = (IntPtr) packet;
-                BetaString bs = (BetaString)Marshal.PtrToStructure(care, typeof(BetaString));
+                BetaString bs = (BetaString)Marshal.PtrToStructure((IntPtr) packet, typeof(BetaString));
                 //BetaString bs = *(BetaString*) packet;
                 //char* cs = bs.pseudoString;
                 //string likeActualString = new string(cs);
