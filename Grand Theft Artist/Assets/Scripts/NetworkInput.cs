@@ -48,7 +48,7 @@ public class NetworkInput : MonoBehaviour {
         EVENT,
         GAMESTATE,
     }
-
+    public Canvas netMenu;
     public Transform player;
     string guid;
     public Text ip;
@@ -221,7 +221,7 @@ public class NetworkInput : MonoBehaviour {
                 break;
             case (byte)Messages.REQUEST_ACCEPTED:
                 Debug.Log("Connection request accepted!");
-                FindObjectOfType<Canvas>().enabled = false;
+                netMenu.enabled = false;
 
                 StartCoroutine(SendInput());
                 break;
@@ -244,6 +244,7 @@ public class NetworkInput : MonoBehaviour {
         posisiton.x = newData.playerPosX[0];
         posisiton.y = newData.playerPosY[0];
         player.position = posisiton;
+        player.GetComponent<Rigidbody2D>().velocity = newData.playerVelocity[0];
 
         Quaternion rot = player.rotation;
         rot.z = newData.playerRotation[0];
