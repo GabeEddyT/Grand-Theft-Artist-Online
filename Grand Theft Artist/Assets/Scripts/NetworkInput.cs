@@ -77,7 +77,7 @@ public class NetworkInput : MonoBehaviour {
         UnityEditor.EditorApplication.playModeStateChanged += OnPlayOrStop;
 #endif
         //sendAndReceiveStruct();
-        Shutdown();
+        //Shutdown();
         Startup();
         
 	}
@@ -116,13 +116,7 @@ public class NetworkInput : MonoBehaviour {
     {
         Disconnect();
     }
-#endif
-
-    private void OnDestroy()
-    {
-        Disconnect();
-        Shutdown();
-    }
+#endif    
 
     private void FixedUpdate()
     {
@@ -199,13 +193,16 @@ public class NetworkInput : MonoBehaviour {
         SetGUID();
     }
 
-    
+
 
     void Disconnect()
     {
-        IntPtr pac = Marshal.AllocHGlobal(1);
-        Marshal.WriteByte(pac, 31);
-        sendNetworkPacket(pac, 1);
+        if (initFlag)
+        {
+            IntPtr pac = Marshal.AllocHGlobal(1);
+            Marshal.WriteByte(pac, 31);
+            sendNetworkPacket(pac, 1);
+        }    
     }
 
     unsafe void getPacket()
