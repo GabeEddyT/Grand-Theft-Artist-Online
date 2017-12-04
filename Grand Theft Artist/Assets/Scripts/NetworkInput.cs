@@ -63,9 +63,9 @@ public class NetworkInput : MonoBehaviour {
     public unsafe struct GameState
     {
         public byte id;
-        public float[] playerPosX;
-        public float[] playerPosY;
-        public float[] playerRotation;
+        public fixed float playerPosX[4];
+        public fixed float playerPosY[4];
+        public fixed float playerRotation[4];
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -277,7 +277,7 @@ public class NetworkInput : MonoBehaviour {
         }
     }
 
-    public void ReceiveGameState(IntPtr packet)
+    public unsafe void ReceiveGameState(IntPtr packet)
     {
         Debug.Log("Received new Game State");
         GameState newData = (GameState)Marshal.PtrToStructure(packet, typeof(GameState));
