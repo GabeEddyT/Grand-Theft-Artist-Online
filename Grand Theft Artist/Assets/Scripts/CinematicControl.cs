@@ -22,9 +22,6 @@ public class CinematicControl : MonoBehaviour
         paused = false;
 
         myPlayer = standalone;
-#if UNITY_WEBGL
-        myPlayer.url = Application.streamingAssetsPath + "/Cutscene – Gabe edit.mp4";
-#endif
         
         myPlayer.prepareCompleted += OnPrepared;
         myPlayer.loopPointReached += OnEndReached;
