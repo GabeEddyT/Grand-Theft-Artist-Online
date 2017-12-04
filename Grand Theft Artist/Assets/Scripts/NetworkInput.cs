@@ -44,7 +44,9 @@ public class NetworkInput : MonoBehaviour {
         REQUEST_ACCEPTED = 16,
         MESSAGE = 135,
         INPUT = 136,
-        GUID
+        GUID,
+        EVENT,
+        GAMESTATE,
     }
 
     string guid;
@@ -55,6 +57,16 @@ public class NetworkInput : MonoBehaviour {
     public InputField chatMess;
     bool initFlag = false;
     bool inputFlag = false;
+
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public unsafe struct GameState
+    {
+        public byte id;
+        public float[] playerPosX;
+        public float[] playerPosY;
+        public float[] playerRotation;
+    }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public unsafe struct InputMessage
@@ -255,10 +267,23 @@ public class NetworkInput : MonoBehaviour {
                 Debug.Log("Connection request accepted!");
                 StartCoroutine(SendInput());
                 break;
+            case (byte)Messages.GAMESTATE:
+                IntPtr newData = (IntPtr)packet;
+                ReceiveGameState(newData);
+                break;
             default:
                 Debug.Log("Message with identifier: " + (byte) packet[0]);
                 break;
         }
+    }
+
+    public void ReceiveGameState(IntPtr packet)
+    {
+        Debug.Log("Received new Game State");
+        GameState newData = (GameState)Marshal.PtrToStructure(packet, typeof(GameState));
+
+
+        Debug.Log(newData.playerPosX[0] + "  " + newData.playerPosY[0] + "  " + newData.playerRotation[0]);
     }
 
     public unsafe void SendChat()
