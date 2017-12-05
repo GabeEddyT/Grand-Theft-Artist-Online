@@ -68,9 +68,10 @@ public class NetworkInput : MonoBehaviour {
         public fixed float playerPosX[4];
         public fixed float playerPosY[4];
         public fixed float playerRotation [4];
+        public fixed ulong playerGuid[4];
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
         public Vector2[] playerVelocity;
-        public fixed ulong playerGuid[4];
+        
     };
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
