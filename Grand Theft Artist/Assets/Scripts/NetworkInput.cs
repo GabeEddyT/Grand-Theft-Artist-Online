@@ -50,7 +50,7 @@ public class NetworkInput : MonoBehaviour {
     }
     public Canvas netMenu;
     public Player []players;
-    string guid;
+    ulong guid;
     public Text ip;
     public Text serverPort;
     public Text chatName;
@@ -70,6 +70,7 @@ public class NetworkInput : MonoBehaviour {
         public fixed float playerRotation [4];
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
         public Vector2[] playerVelocity;
+        public fixed ulong playerGuid[4];
     };
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -251,6 +252,10 @@ public class NetworkInput : MonoBehaviour {
             Quaternion rot = players[i].transform.rotation;
             rot.z = newData.playerRotation[i];
             players[i].transform.rotation = rot;
+            if (newData.playerGuid[i] == guid)
+            {
+                players[i].playerType = 1;
+            }
         }
         
         Debug.Log(newData.playerPosX[0] + "  " + newData.playerPosY[0] + "  " + newData.playerRotation[0] + " " + newData.playerVelocity[0].ToString() );
@@ -262,7 +267,7 @@ public class NetworkInput : MonoBehaviour {
         {
             BetaString bs;
             bs.id = (byte)Messages.MESSAGE;
-            bs.pseudoString = ToByte(String.IsNullOrEmpty(chatName.text) ? guid : chatName.text + " says: " + chatMess.text);
+            bs.pseudoString = ToByte(String.IsNullOrEmpty(chatName.text) ? guid + "" : chatName.text + " says: " + chatMess.text);
             SendPkt(bs);
         }
         ////BetaString bs = new BetaString((int)Messages.MESSAGE);
@@ -322,7 +327,7 @@ public class NetworkInput : MonoBehaviour {
 
     public unsafe void SetGUID()
     {
-        guid = Marshal.PtrToStringAnsi(getGUID());
+        guid = UInt64.Parse(Marshal.PtrToStringAnsi(getGUID()));
         initFlag = true;
     }
 }
