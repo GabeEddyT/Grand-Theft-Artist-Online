@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ItemSpawn : MonoBehaviour {
 
+    public bool enableSpawn = true; //for toggling off when Networking
+
     Item[] items;
     
     int randomNum;
@@ -46,6 +48,11 @@ public class ItemSpawn : MonoBehaviour {
             newOno.GetComponent<AudioSource>().volume = vec.magnitude / 100;
             newOno.scale = vec.magnitude / 10;
             newOno.transform.localPosition = (Vector3)collision.contacts[0].point + new Vector3(0, 0, -5);
+
+            if (!enableSpawn)
+            {
+                yield break;
+            }
 
             int itemsToSpawn = 0;
             int val = (int)vec.magnitude;
