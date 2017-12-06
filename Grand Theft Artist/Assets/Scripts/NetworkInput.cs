@@ -266,7 +266,7 @@ public class NetworkInput : MonoBehaviour {
                 players[i].playerType = 1;
             }
 
-            
+            players[i].speed = newData.playerAxes[i].y;
         }
         
         Debug.Log(newData.playerPosX[0] + "  " + newData.playerPosY[0] + "  " + newData.playerRotation[0] + " " + newData.playerVelocity[0].ToString() + " " + dt);
