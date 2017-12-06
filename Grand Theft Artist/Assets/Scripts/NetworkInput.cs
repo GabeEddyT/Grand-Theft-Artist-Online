@@ -71,6 +71,8 @@ public class NetworkInput : MonoBehaviour {
         public fixed ulong playerGuid[4];
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
         public Vector2[] playerVelocity;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
+        public Vector2[] playerAxes;
         public double timestamp;
     };
 
@@ -254,6 +256,7 @@ public class NetworkInput : MonoBehaviour {
             players[i].transform.position = position + (newData.playerVelocity[i] * (float)dt); // "lerp"
             players[i].GetComponent<Rigidbody2D>().velocity = newData.playerVelocity[i];
 
+            
 
             Quaternion rot = players[i].transform.rotation;
             rot.z = newData.playerRotation[i];
@@ -262,6 +265,8 @@ public class NetworkInput : MonoBehaviour {
             {
                 players[i].playerType = 1;
             }
+
+            
         }
         
         Debug.Log(newData.playerPosX[0] + "  " + newData.playerPosY[0] + "  " + newData.playerRotation[0] + " " + newData.playerVelocity[0].ToString() + " " + dt);
