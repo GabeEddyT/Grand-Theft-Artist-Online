@@ -267,6 +267,10 @@ public class NetworkInput : MonoBehaviour {
             }
 
             players[i].speed = newData.playerAxes[i].y;
+            if (players[i].speed == 0)
+            {
+                players[i].speed = newData.playerAxes[i].x;
+            }
         }
         
         Debug.Log(newData.playerPosX[0] + "  " + newData.playerPosY[0] + "  " + newData.playerRotation[0] + " " + newData.playerVelocity[0].ToString() + " " + dt);
