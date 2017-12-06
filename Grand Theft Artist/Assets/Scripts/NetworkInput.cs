@@ -71,7 +71,7 @@ public class NetworkInput : MonoBehaviour {
         public fixed ulong playerGuid[4];
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
         public Vector2[] playerVelocity;
-        
+        public double timestamp;
     };
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -242,13 +242,18 @@ public class NetworkInput : MonoBehaviour {
     {
         Debug.Log("Received new Game State");
         GameState newData = (GameState)Marshal.PtrToStructure(packet, typeof(GameState));
+        TimeSpan t = DateTime.UtcNow - DateTime.MinValue;
+        double dt = t.TotalSeconds - newData.timestamp;
         for (int i = 0; i < 4; i++)
         {
-            Vector2 posisiton = players[i].transform.position;
-            posisiton.x = newData.playerPosX[i];
-            posisiton.y = newData.playerPosY[i];
-            players[i].transform.position = posisiton;
-            players[i].GetComponent<Rigidbody2D>().velocity = newData.playerVelocity[0];
+            
+            Vector2 position = players[i].transform.position;
+            position.x = newData.playerPosX[i];
+            position.y = newData.playerPosY[i];
+
+            players[i].transform.position = position + (newData.playerVelocity[i] * (float)dt); // "lerp"
+            players[i].GetComponent<Rigidbody2D>().velocity = newData.playerVelocity[i];
+
 
             Quaternion rot = players[i].transform.rotation;
             rot.z = newData.playerRotation[i];
@@ -259,7 +264,7 @@ public class NetworkInput : MonoBehaviour {
             }
         }
         
-        Debug.Log(newData.playerPosX[0] + "  " + newData.playerPosY[0] + "  " + newData.playerRotation[0] + " " + newData.playerVelocity[0].ToString() );
+        Debug.Log(newData.playerPosX[0] + "  " + newData.playerPosY[0] + "  " + newData.playerRotation[0] + " " + newData.playerVelocity[0].ToString() + " " + dt);
     }
 
     public unsafe void SendChat()
