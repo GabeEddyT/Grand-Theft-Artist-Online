@@ -167,7 +167,7 @@ public class NetworkInput : MonoBehaviour {
         if (initFlag)
         {
             getPacket();
-
+            Camera.main.transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
             //    //initFlag = false;
         }
     }
@@ -355,6 +355,7 @@ public class NetworkInput : MonoBehaviour {
                 if (!cameraSet)
                 {
                     cameraTransform.parent = players[i].transform;
+                    cameraTransform.localPosition = new Vector3(0,0, -10);
                     cameraSet = true;
                 }
                 players[i].playerType = 1;
