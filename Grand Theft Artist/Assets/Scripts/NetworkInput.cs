@@ -47,10 +47,11 @@ public class NetworkInput : MonoBehaviour {
         GUID,
         EVENT,
         GAMESTATE,
+        ITEMSPAWN
     }
     public Canvas netMenu;
     public Player []players;
-    string guid;
+    ulong guid;
     public Text ip;
     public Text serverPort;
     public Text chatName;
@@ -68,8 +69,24 @@ public class NetworkInput : MonoBehaviour {
         public fixed float playerPosX[4];
         public fixed float playerPosY[4];
         public fixed float playerRotation [4];
+        public fixed ulong playerGuid[4];
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
         public Vector2[] playerVelocity;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
+        public Vector2[] playerAxes;
+        public double timestamp;
+    };
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public unsafe struct ItemShip
+    {
+        public byte id;
+        public byte numItems;
+        public Vector2 location;
+        public fixed byte itemType[13];
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)]
+        public Vector2[] trajectory;
+        public fixed float rotVelocity[13];
     };
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -227,8 +244,16 @@ public class NetworkInput : MonoBehaviour {
                 StartCoroutine(SendInput());
                 break;
             case (byte)Messages.GAMESTATE:
-                IntPtr newData = (IntPtr)packet;
-                ReceiveGameState(newData);
+                {
+                    IntPtr newData = (IntPtr)packet;
+                    ReceiveGameState(newData);
+                }
+                break;
+            case (byte)Messages.ITEMSPAWN:
+                {
+                    IntPtr newData = (IntPtr)packet;
+                    ReceiveItems(newData);
+                }
                 break;
             default:
                 Debug.Log("Message with identifier: " + (byte) packet[0]);
@@ -240,20 +265,36 @@ public class NetworkInput : MonoBehaviour {
     {
         Debug.Log("Received new Game State");
         GameState newData = (GameState)Marshal.PtrToStructure(packet, typeof(GameState));
+        TimeSpan t = DateTime.UtcNow - DateTime.MinValue;
+        double dt = t.TotalSeconds - newData.timestamp;
         for (int i = 0; i < 4; i++)
         {
-            Vector2 posisiton = players[i].transform.position;
-            posisiton.x = newData.playerPosX[i];
-            posisiton.y = newData.playerPosY[i];
-            players[i].transform.position = posisiton;
-            players[i].GetComponent<Rigidbody2D>().velocity = newData.playerVelocity[0];
+            
+            Vector2 position = players[i].transform.position;
+            position.x = newData.playerPosX[i];
+            position.y = newData.playerPosY[i];
+
+            players[i].transform.position = position + (newData.playerVelocity[i] * (float)dt); // "lerp"
+            players[i].GetComponent<Rigidbody2D>().velocity = newData.playerVelocity[i];
+
+            
 
             Quaternion rot = players[i].transform.rotation;
             rot.z = newData.playerRotation[i];
             players[i].transform.rotation = rot;
+            if (newData.playerGuid[i] == guid)
+            {
+                players[i].playerType = 1;
+            }
+
+            players[i].speed = newData.playerAxes[i].y;
+            if (players[i].speed == 0)
+            {
+                players[i].speed = newData.playerAxes[i].x;
+            }
         }
         
-        Debug.Log(newData.playerPosX[0] + "  " + newData.playerPosY[0] + "  " + newData.playerRotation[0] + " " + newData.playerVelocity[0].ToString() );
+        Debug.Log(newData.playerPosX[0] + "  " + newData.playerPosY[0] + "  " + newData.playerRotation[0] + " " + newData.playerVelocity[0].ToString() + " " + dt);
     }
 
     public unsafe void SendChat()
@@ -262,7 +303,8 @@ public class NetworkInput : MonoBehaviour {
         {
             BetaString bs;
             bs.id = (byte)Messages.MESSAGE;
-            bs.pseudoString = ToByte(String.IsNullOrEmpty(chatName.text) ? guid : chatName.text + " says: " + chatMess.text);
+            bs.pseudoString = ToByte(String.IsNullOrEmpty(chatName.text) ? guid + "" : chatName.text + " says: " + chatMess.text);
+            chatMess.text = "";
             SendPkt(bs);
         }
         ////BetaString bs = new BetaString((int)Messages.MESSAGE);
@@ -293,7 +335,10 @@ public class NetworkInput : MonoBehaviour {
             int size = Marshal.SizeOf(im);
             IntPtr myPtr = Marshal.AllocHGlobal(size);
             Marshal.StructureToPtr(im, myPtr, false);
-            sendNetworkPacket(myPtr, size);
+
+            if(!chatMess.isFocused)
+                sendNetworkPacket(myPtr, size);
+
             Marshal.FreeHGlobal(myPtr);
             yield return new WaitForSeconds(.034f);
         }
@@ -322,7 +367,21 @@ public class NetworkInput : MonoBehaviour {
 
     public unsafe void SetGUID()
     {
-        guid = Marshal.PtrToStringAnsi(getGUID());
+        guid = UInt64.Parse(Marshal.PtrToStringAnsi(getGUID()));
         initFlag = true;
+    }
+
+    /**
+     * Receive the items from the server and call a random ItemSpawn-er to spawn them client-side.
+     * */
+    public unsafe void ReceiveItems(IntPtr pkt)
+    {
+        ItemShip shipment = (ItemShip)Marshal.PtrToStructure(pkt, typeof(ItemShip));
+        ItemSpawn spawner = FindObjectOfType<ItemSpawn>();
+        byte[] itemType = new byte[shipment.numItems];
+        float[] rotVelocity = new float[shipment.numItems];
+        Marshal.Copy((IntPtr)shipment.itemType, itemType, 0, shipment.numItems); // thank stack: https://stackoverflow.com/a/17569560
+        Marshal.Copy((IntPtr)shipment.rotVelocity, rotVelocity, 0, shipment.numItems); 
+        StartCoroutine( spawner.Spawn(shipment.numItems,shipment.location, itemType, shipment.trajectory, rotVelocity));
     }
 }

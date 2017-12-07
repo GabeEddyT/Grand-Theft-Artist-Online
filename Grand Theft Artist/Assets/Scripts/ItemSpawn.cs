@@ -2,29 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemSpawn : MonoBehaviour {
+public class ItemSpawn : MonoBehaviour
+{
+
+    public bool enableSpawn = true; //for toggling off when Networking
 
     Item[] items;
-    
+
     int randomNum;
     Onomatopoeia ono;
-    
-	// Use this for initialization
-	void Start ()
+
+    // Use this for initialization
+    void Start()
     {
         items = Resources.LoadAll<Item>("Prefabs/Items");
         ono = Resources.LoadAll<Onomatopoeia>("Prefabs")[0];
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update()
     {
 
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        StartCoroutine( Spawn(collision));
+        StartCoroutine(Spawn(collision));
     }
 
     IEnumerator Spawn(Collision2D collision)
@@ -46,6 +49,11 @@ public class ItemSpawn : MonoBehaviour {
             newOno.GetComponent<AudioSource>().volume = vec.magnitude / 100;
             newOno.scale = vec.magnitude / 10;
             newOno.transform.localPosition = (Vector3)collision.contacts[0].point + new Vector3(0, 0, -5);
+
+            if (!enableSpawn)
+            {
+                yield break;
+            }
 
             int itemsToSpawn = 0;
             int val = (int)vec.magnitude;
@@ -73,46 +81,46 @@ public class ItemSpawn : MonoBehaviour {
             else
                 itemsToSpawn = 1;
 
-            for (int i = 0; i < itemsToSpawn; i ++) 
-			{
-				randomNum = Random.Range(0, items.Length);
+            for (int i = 0; i < itemsToSpawn; i++)
+            {
+                randomNum = Random.Range(0, items.Length);
 
-				Item item = Instantiate(items[randomNum], collision.contacts[0].point + vec.normalized * 2, transform.rotation);
-				//item.transform.localPosition = item.transform.localPosition + new Vector3(0, 0, -4);
-				//item.gameObject.layer;
-				item.gameObject.layer = 12;
+                Item item = Instantiate(items[randomNum], collision.contacts[0].point + vec.normalized * 2, transform.rotation);
+                //item.transform.localPosition = item.transform.localPosition + new Vector3(0, 0, -4);
+                //item.gameObject.layer;
+                item.gameObject.layer = 12;
 
-				CircleCollider2D myCollider = item.gameObject.AddComponent<CircleCollider2D>();
-				GameObject child = new GameObject();
-				child.transform.parent = item.transform;
-				child.layer = 12;
-				child.transform.localPosition = Vector2.zero;
-				//Rigidbody2D childRB = child.AddComponent<Rigidbody2D>();
-				//childRB.isKinematic = true;
-				//childRB.useFullKinematicContacts = true;
-				//GameObject empty = Instantiate(newObj, item.transform);
-				CircleCollider2D childCol = child.gameObject.AddComponent<CircleCollider2D>();
-				childCol.radius = 1;
-				//Debug.Log(item.gameObject.layer);
-				//newObj.layer = item.gameObject.laye;
-				//child.layer = item.gameObject.layer;
-				//myCollider.radius = 
+                CircleCollider2D myCollider = item.gameObject.AddComponent<CircleCollider2D>();
+                GameObject child = new GameObject();
+                child.transform.parent = item.transform;
+                child.layer = 12;
+                child.transform.localPosition = Vector2.zero;
+                //Rigidbody2D childRB = child.AddComponent<Rigidbody2D>();
+                //childRB.isKinematic = true;
+                //childRB.useFullKinematicContacts = true;
+                //GameObject empty = Instantiate(newObj, item.transform);
+                CircleCollider2D childCol = child.gameObject.AddComponent<CircleCollider2D>();
+                childCol.radius = 1;
+                //Debug.Log(item.gameObject.layer);
+                //newObj.layer = item.gameObject.laye;
+                //child.layer = item.gameObject.layer;
+                //myCollider.radius = 
 
-				myCollider.isTrigger = true;
-				item.gameObject.AddComponent<Rigidbody2D>();
-				Rigidbody2D rb = item.gameObject.GetComponent<Rigidbody2D>();
-				//Debug.Log(item.gameObject.name);
-				//Debug.Log(item.gameObject.layer);
+                myCollider.isTrigger = true;
+                item.gameObject.AddComponent<Rigidbody2D>();
+                Rigidbody2D rb = item.gameObject.GetComponent<Rigidbody2D>();
+                //Debug.Log(item.gameObject.name);
+                //Debug.Log(item.gameObject.layer);
 
-				rb.mass = .5f;
-				rb.drag = 1f;
-				rb.angularDrag = 1f;
-				rb.AddTorque(Random.value * 50f - 25f);
+                rb.mass = .5f;
+                rb.drag = 1f;
+                rb.angularDrag = 1f;
+                rb.AddTorque(Random.value * 50f - 25f);
 
-				float randomAngle = Random.value * 180 - 90;
-				Matrix4x4 rotMat = Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0, 0, randomAngle), Vector3.one);
-				
-				rb.velocity = rotMat.MultiplyVector(vec);
+                float randomAngle = Random.value * 180 - 90;
+                Matrix4x4 rotMat = Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0, 0, randomAngle), Vector3.one);
+
+                rb.velocity = rotMat.MultiplyVector(vec);
                 //rb.AddForceAtPosition(Vector2.up * 24, rb.transform.position + new Vector3(4, 0));
 
                 //Debug.Log("Torque: " + rb.angularVelocity);
@@ -125,7 +133,43 @@ public class ItemSpawn : MonoBehaviour {
                 //ono.transform.localScale = Vector2.one * collision.relativeVelocity.magnitude;
                 // Debug.Log(item);
                 yield return null;
-			}
+            }
         }
+    }
+
+    /**
+     * For networking.
+     * */
+    public IEnumerator Spawn(byte numItems, Vector2 location, byte[] itemType, Vector2[] trajectory, float[] rotVelocity)
+    {   
+
+        for (int i = 0; i < numItems; i++)
+        {
+
+            Item item = Instantiate(items[itemType[i]], location + trajectory[i].normalized * 2, transform.rotation);
+            item.gameObject.layer = 12;
+
+            CircleCollider2D myCollider = item.gameObject.AddComponent<CircleCollider2D>();
+            GameObject child = new GameObject();
+            child.transform.parent = item.transform;
+            child.layer = 12;
+            child.transform.localPosition = Vector2.zero;
+            CircleCollider2D childCol = child.gameObject.AddComponent<CircleCollider2D>();
+            childCol.radius = 1;
+
+            myCollider.isTrigger = true;
+            item.gameObject.AddComponent<Rigidbody2D>();
+            Rigidbody2D rb = item.gameObject.GetComponent<Rigidbody2D>();
+
+            rb.mass = .5f;
+            rb.drag = 1f;
+            rb.angularDrag = 1f;
+            rb.AddTorque(rotVelocity[i]);
+            
+
+            rb.velocity = trajectory[i];
+            yield return null;
+        }
+
     }
 }

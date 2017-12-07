@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     public float goalAmount = 1000.0f;
     public GameObject cart;
     public Camera cammy;
+    public InputField chat;
 
 
     public SpriteRenderer[] cartItems = new SpriteRenderer[4];
@@ -65,155 +66,163 @@ public class Player : MonoBehaviour
 
     void Move()
     {
-        relVel = speed > 0 ? rb.velocity.magnitude / 10.0f : rb.velocity.magnitude / -10.0f;
-        Vector3 rotVec;
-        switch (playerType)
+        if (!chat.isFocused)
         {
-            default:
-                rotVec = new Vector3(gameObject.transform.rotation.x, gameObject.transform.rotation.y, Input.GetAxis("Horizontal") * -5);
-
-                break;
-            case 2:
-                rotVec = new Vector3(gameObject.transform.rotation.x, gameObject.transform.rotation.y, Input.GetAxis("Horizontal2") * -5);
-                break;
-        }
-
-        //gameObject.transform.TransformDirection(new Vector3(gameObject.transform.rotation.x, gameObject.transform.rotation.y, Input.GetAxis("Horizontal")));
-
-        //gameObject.transform.rotation = rotate;
-        gameObject.transform.Rotate(rotVec);
-
-        //gameObject.transform.Translate(0, Input.GetAxis("Vertical"), 0, Space.Self);//actually works
-        //Vector3 eulie = gameObject.transform.localEulerAngles;
-
-        //Debug.Log();
-        //var localDirection = transform.rotation * Vector2.up;
-
-        //localDirection = transform.InverseTransformDirection(Vector2.up);
-        //Vector3 localForward = transform.worldToLocalMatrix.MultiplyVector(transform.forward);
-        //Debug.Log(rotVec);
-        //Vector3 forward = transform.InverseTransformDirection(Vector2.up);
-
-        //Debug.Log(new Vector2(gameObject.transform.localRotation.z, gameObject.transform.localRotation.w));
-        //Debug.Log(Input.GetAxis("Vertical"));
-
-        //speed = Input.GetAxis("Vertical");
-        float gas;
-
-        switch (playerType)
-        {
-            default:
-                 gas = Input.GetAxis("Gas");
-                break;
-            case 2:
-                gas = Input.GetAxis("Gas2");
-                break;
-
-        }
-        if (gas > 0)
-        {
-            //rb.mass = 0.01f;
-            if (speed < 0)
-            {
-                speed += Time.deltaTime * gas * 2 * (speed * speed + 2);
-            }
-            else if (speed < gas * maxspeed)
-            {
-                speed += Time.deltaTime * gas * (maxspeed / (speed + 1));
-            }
-            else if (speed > gas * maxspeed)
-            {
-                speed -= Time.deltaTime * gas;
-            }
-            if (speed > maxspeed)
-            {
-                speed = maxspeed;
-            }
-           
-           // rb.AddForce(transform.up * speed);
-        }
-        else if (gas < 0)
-        {
-
-            if (Mathf.Round(rb.velocity.magnitude) > 0.1f && speed > 0.0f)
-            {
-                speed += Time.deltaTime * gas * (speed * 2 + 2);
-                //rb.mass = Mathf.Abs(Input.GetAxis("Vertical"));
-                //if (speed < 0)
-                //{
-                //    speed = 0.0f;
-                //}
-            }
-            else
-            {
-                //rb.mass = 0.01f;
-                if (speed > maxspeed * -.4f)
-                {
-                    speed += Time.deltaTime * gas * maxspeed;
-                }
-                if (speed < maxspeed * -.4f)
-                {
-                    speed -= Time.deltaTime * gas * maxspeed;
-                }
-            }
-            
-        }
-        else if (speed > .1)
-        {
-            speed -= Time.deltaTime;
-        }
-        else if (speed < -.1)
-        {
-            speed += Time.deltaTime;
-        }
-        else
-            speed = 0;
-
-        rb.AddForce(transform.up * speed);
-
-        //rb.velocity = transform.up * speed * 10.0f;
-
-
-
-        // speed = Input.GetAxis("Vertical");
-        // float outthis = Mathf.Round(speed * 10.0f) / 10.0f;
-
-
-        float outthis = speed > 0 ? Mathf.Round(rb.velocity.magnitude * 1.0f) / 10.0f : Mathf.Round(rb.velocity.magnitude * 1.0f) / -10.0f;
-        mps.text = (outthis % 1 == 0 ? outthis + ".0" : outthis + "") + " MPH";
-        
-        //if (Input.GetAxis("Vertical") > .5 && speed < maxspeed)
-        //{
-        //    speed += maxspeed / speed * Input.GetAxis("Vertical") * Time.deltaTime;
-        //}
-        //else 
-        //    speed = Input.GetAxis("Vertical") * 10;
-        //speed = Input.GetAxis("Vertical"10;
-
-        //gameObject.GetComponent<Rigidbody2D>().AddForce(transform.up * speed);
-        //rb.velocity = transform.up * speed;
-        
-        
-        //Debug.Log(rb.velocity.magnitude);
-        //rb.AddTorque(Input.GetAxis("Horizontal"), ForceMode2D.Impulse);
-
-        //gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(25, 3));
-        //Debug.Log(transform.TransformDirection(transform.InverseTransformDirection(transform.up)));
-        if (speed != 0)
-        {
-            gameObject.GetComponent<Animator>().SetFloat("speed", speed);
-        }
-        else
-        {
+            relVel = speed > 0 ? rb.velocity.magnitude / 10.0f : rb.velocity.magnitude / -10.0f;
+            Vector3 rotVec;
             switch (playerType)
             {
                 default:
-                    gameObject.GetComponent<Animator>().SetFloat("speed", Input.GetAxis("Horizontal"));
+                    rotVec = new Vector3(gameObject.transform.rotation.x, gameObject.transform.rotation.y, Input.GetAxis("Horizontal") * -5);
 
                     break;
                 case 2:
-                    gameObject.GetComponent<Animator>().SetFloat("speed", Input.GetAxis("Horizontal2"));
+                    rotVec = new Vector3(gameObject.transform.rotation.x, gameObject.transform.rotation.y, Input.GetAxis("Horizontal2") * -5);
                     break;
+            }
+
+            //gameObject.transform.TransformDirection(new Vector3(gameObject.transform.rotation.x, gameObject.transform.rotation.y, Input.GetAxis("Horizontal")));
+
+            //gameObject.transform.rotation = rotate;
+            gameObject.transform.Rotate(rotVec);
+
+            //gameObject.transform.Translate(0, Input.GetAxis("Vertical"), 0, Space.Self);//actually works
+            //Vector3 eulie = gameObject.transform.localEulerAngles;
+
+            //Debug.Log();
+            //var localDirection = transform.rotation * Vector2.up;
+
+            //localDirection = transform.InverseTransformDirection(Vector2.up);
+            //Vector3 localForward = transform.worldToLocalMatrix.MultiplyVector(transform.forward);
+            //Debug.Log(rotVec);
+            //Vector3 forward = transform.InverseTransformDirection(Vector2.up);
+
+            //Debug.Log(new Vector2(gameObject.transform.localRotation.z, gameObject.transform.localRotation.w));
+            //Debug.Log(Input.GetAxis("Vertical"));
+
+            //speed = Input.GetAxis("Vertical");
+            float gas;
+
+            switch (playerType)
+            {
+                default:
+                    gas = Input.GetAxis("Gas");
+                    break;
+                case 2:
+                    gas = Input.GetAxis("Gas2");
+                    break;
+
+            }
+
+
+            if (gas > 0)
+            {
+                //rb.mass = 0.01f;
+                if (speed < 0)
+                {
+                    speed += Time.deltaTime * gas * 2 * (speed * speed + 2);
+                }
+                else if (speed < gas * maxspeed)
+                {
+                    speed += Time.deltaTime * gas * (maxspeed / (speed + 1));
+                }
+                else if (speed > gas * maxspeed)
+                {
+                    speed -= Time.deltaTime * gas;
+                }
+                if (speed > maxspeed)
+                {
+                    speed = maxspeed;
+                }
+
+                // rb.AddForce(transform.up * speed);
+            }
+            else if (gas < 0)
+            {
+
+                if (Mathf.Round(rb.velocity.magnitude) > 0.1f && speed > 0.0f)
+                {
+                    speed += Time.deltaTime * gas * (speed * 2 + 2);
+                    //rb.mass = Mathf.Abs(Input.GetAxis("Vertical"));
+                    //if (speed < 0)
+                    //{
+                    //    speed = 0.0f;
+                    //}
+                }
+                else
+                {
+                    //rb.mass = 0.01f;
+                    if (speed > maxspeed * -.4f)
+                    {
+                        speed += Time.deltaTime * gas * maxspeed;
+                    }
+                    if (speed < maxspeed * -.4f)
+                    {
+                        speed -= Time.deltaTime * gas * maxspeed;
+                    }
+                }
+
+            }
+            else if (speed > .1)
+            {
+                speed -= Time.deltaTime;
+            }
+            else if (speed < -.1)
+            {
+                speed += Time.deltaTime;
+            }
+            else
+                speed = 0;
+
+            if (!chat.isFocused)
+            {
+                rb.AddForce(transform.up * speed);
+            }
+
+            //rb.velocity = transform.up * speed * 10.0f;
+
+
+
+            // speed = Input.GetAxis("Vertical");
+            // float outthis = Mathf.Round(speed * 10.0f) / 10.0f;
+
+
+            float outthis = speed > 0 ? Mathf.Round(rb.velocity.magnitude * 1.0f) / 10.0f : Mathf.Round(rb.velocity.magnitude * 1.0f) / -10.0f;
+            mps.text = (outthis % 1 == 0 ? outthis + ".0" : outthis + "") + " MPH";
+
+            //if (Input.GetAxis("Vertical") > .5 && speed < maxspeed)
+            //{
+            //    speed += maxspeed / speed * Input.GetAxis("Vertical") * Time.deltaTime;
+            //}
+            //else 
+            //    speed = Input.GetAxis("Vertical") * 10;
+            //speed = Input.GetAxis("Vertical"10;
+
+            //gameObject.GetComponent<Rigidbody2D>().AddForce(transform.up * speed);
+            //rb.velocity = transform.up * speed;
+
+
+            //Debug.Log(rb.velocity.magnitude);
+            //rb.AddTorque(Input.GetAxis("Horizontal"), ForceMode2D.Impulse);
+
+            //gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(25, 3));
+            //Debug.Log(transform.TransformDirection(transform.InverseTransformDirection(transform.up)));
+            if (speed != 0)
+            {
+                gameObject.GetComponent<Animator>().SetFloat("speed", speed);
+            }
+            else
+            {
+                switch (playerType)
+                {
+                    default:
+                        gameObject.GetComponent<Animator>().SetFloat("speed", Input.GetAxis("Horizontal"));
+
+                        break;
+                    case 2:
+                        gameObject.GetComponent<Animator>().SetFloat("speed", Input.GetAxis("Horizontal2"));
+                        break;
+                }
             }
         }
     }
