@@ -61,7 +61,7 @@ public class NetworkInput : MonoBehaviour {
     bool initFlag = false;
     bool inputFlag = false;
     public static bool networkedMode = false;
-    private Dictionary<String, Transform> shelves;
+    private Dictionary<string, Transform> shelves;
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public unsafe struct GameState
@@ -116,6 +116,21 @@ public class NetworkInput : MonoBehaviour {
         public byte id;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
         public byte [] pseudoString;
+        public override string ToString()
+        {
+            char[] ignoreThese = { '\0', (char)0 };
+            return Encoding.ASCII.GetString(pseudoString).Split(ignoreThese)[0];
+        }
+        public BetaString(string name)
+        {
+            id = 0;
+            pseudoString = Encoding.ASCII.GetBytes(name);
+        }
+        public override bool Equals(object obj)
+        {
+            char[] ignoreThese = { '\0', (char)0 };
+            return Encoding.ASCII.GetString(pseudoString).Split(ignoreThese)[0] == Encoding.ASCII.GetString(((BetaString)obj).pseudoString).Split(ignoreThese)[0];            
+        }
     }
 
     void Start () {
@@ -331,7 +346,8 @@ public class NetworkInput : MonoBehaviour {
         
         for (int i = 0; i < 14; i++)
         {
-            Transform shelf = shelves[(FromByte(shelfData.name[i].pseudoString))];
+            Transform shelf = shelves[shelfData.name[i].ToString()];
+            
             shelf.position = shelfData.shelfPos[i];
             shelf.rotation = shelfData.shelfRot[i];
         }
