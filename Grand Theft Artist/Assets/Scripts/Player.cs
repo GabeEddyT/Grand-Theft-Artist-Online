@@ -24,7 +24,6 @@ public class Player : MonoBehaviour
     public Camera cammy;
     public InputField chat;
 
-
     public SpriteRenderer[] cartItems = new SpriteRenderer[4];
     int itemCount = 0;
 
@@ -42,8 +41,10 @@ public class Player : MonoBehaviour
         if (!Pause.paused)
         {
             GetComponent<Animator>().speed = 1;
-
-            CameraControl();
+            if (playerType == 1)
+            {
+                CameraControl();
+            }
         }
         else
         {

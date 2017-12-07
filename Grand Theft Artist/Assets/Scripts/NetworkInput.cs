@@ -62,7 +62,9 @@ public class NetworkInput : MonoBehaviour {
     bool initFlag = false;
     bool inputFlag = false;
     public static bool networkedMode = false;
+    private bool cameraSet = false;
     private Dictionary<string, Transform> shelves;
+    public Transform cameraTransform;
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public unsafe struct GameState
@@ -328,7 +330,7 @@ public class NetworkInput : MonoBehaviour {
     }
 
     public unsafe void ReceiveGameState(IntPtr packet)
-    {
+    {        
         Debug.Log("Received new Game State");
         GameState newData = (GameState)Marshal.PtrToStructure(packet, typeof(GameState));
         TimeSpan t = DateTime.UtcNow - DateTime.MinValue;
@@ -350,6 +352,11 @@ public class NetworkInput : MonoBehaviour {
             players[i].transform.rotation = rot;
             if (newData.playerGuid[i] == guid)
             {
+                if (!cameraSet)
+                {
+                    cameraTransform.parent = players[i].transform;
+                    cameraSet = true;
+                }
                 players[i].playerType = 1;
             }
 
