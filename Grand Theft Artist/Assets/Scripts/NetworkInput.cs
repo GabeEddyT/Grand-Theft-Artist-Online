@@ -5,7 +5,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Runtime.InteropServices;
-
+using UnityEngine.SceneManagement;
 
 
 
@@ -49,6 +49,7 @@ public class NetworkInput : MonoBehaviour {
         GAMESTATE,
         ITEMSPAWN,
         SHELF,
+        WINNER,
     }
     public Canvas netMenu;
     public Player []players;
@@ -132,6 +133,13 @@ public class NetworkInput : MonoBehaviour {
             char[] ignoreThese = { '\0', (char)0 };
             return Encoding.ASCII.GetString(pseudoString).Split(ignoreThese)[0] == Encoding.ASCII.GetString(((BetaString)obj).pseudoString).Split(ignoreThese)[0];            
         }
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct WinMessage
+    {
+        public byte id;
+        public UInt64 winner;
     }
 
     void Start () {
@@ -296,9 +304,26 @@ public class NetworkInput : MonoBehaviour {
                     ReceiveShelfState(newData);
                 }
                 break;
+            case (byte)Messages.WINNER:
+                IntPtr winnerPkt = (IntPtr)packet;
+                ProcessWin(winnerPkt);
+                break;
             default:
                 Debug.Log("Message with identifier: " + (byte) packet[0]);
                 break;
+        }
+    }
+
+    private void ProcessWin(IntPtr winnerPkt)
+    {
+        WinMessage wm = (WinMessage)Marshal.PtrToStructure(winnerPkt, typeof(WinMessage));
+        if (wm.winner == guid)
+        {
+            SceneManager.LoadScene("Success");
+        }
+        else
+        {
+            SceneManager.LoadScene("Lose");
         }
     }
 
