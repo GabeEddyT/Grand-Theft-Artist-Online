@@ -58,9 +58,8 @@ public class NetworkInput : MonoBehaviour {
     //public Text chatMess;
     public InputField chatMess;
     bool initFlag = false;
-    bool inputFlag = false;
+    public Text chatLog;
     public static bool networkedMode = false;
-
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public unsafe struct GameState
@@ -232,6 +231,7 @@ public class NetworkInput : MonoBehaviour {
                 //Console.WriteLine(*theSood);
                 string outputPls = Encoding.ASCII.GetString(bs.pseudoString);
                 //string outputPls = ; /*new string(bs.pseudoString) +*/ //new string(poi->pseudoString);
+                chatLog.text += outputPls + "\n";
                 Debug.Log(outputPls);
                 break;
             case (byte)Messages.INPUT:
