@@ -231,7 +231,7 @@ public class NetworkInput : MonoBehaviour {
                 //Console.WriteLine(*theSood);
                 string outputPls = Encoding.ASCII.GetString(bs.pseudoString);
                 //string outputPls = ; /*new string(bs.pseudoString) +*/ //new string(poi->pseudoString);
-                chatLog.text += outputPls + "\n";
+                chatLog.text = outputPls;
                 Debug.Log(outputPls);
                 break;
             case (byte)Messages.INPUT:
