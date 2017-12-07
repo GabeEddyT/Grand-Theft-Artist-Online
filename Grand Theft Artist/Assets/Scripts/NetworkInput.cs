@@ -334,7 +334,9 @@ public class NetworkInput : MonoBehaviour {
                 players[i].speed = newData.playerAxes[i].x;
             }
             players[i].cash = newData.playerCash[i];
+
             players[i].money.text = "$" + newData.playerCash[i].ToString("F2");
+            players[i].dollar.GetComponent<Animator>().SetFloat("money", newData.playerCash[i]);
         }
         
         Debug.Log(newData.playerPosX[0] + "  " + newData.playerPosY[0] + "  " + newData.playerRotation[0] + " " + newData.playerVelocity[0].ToString() + " " + dt);
