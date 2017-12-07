@@ -47,7 +47,8 @@ public class NetworkInput : MonoBehaviour {
         GUID,
         EVENT,
         GAMESTATE,
-        ITEMSPAWN
+        ITEMSPAWN,
+        SHELF,
     }
     public Canvas netMenu;
     public Player []players;
@@ -60,7 +61,7 @@ public class NetworkInput : MonoBehaviour {
     bool initFlag = false;
     bool inputFlag = false;
     public static bool networkedMode = false;
-
+    private Dictionary<String, Transform> shelves;
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public unsafe struct GameState
@@ -75,6 +76,18 @@ public class NetworkInput : MonoBehaviour {
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
         public Vector2[] playerAxes;
         public double timestamp;
+    };
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public unsafe struct ShelfState
+    {
+        public byte id;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 14)]
+        public BetaString[] name;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 14)]
+        public Vector2[] shelfPos;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 14)]
+        public Quaternion[] shelfRot;
     };
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -106,6 +119,12 @@ public class NetworkInput : MonoBehaviour {
     }
 
     void Start () {
+        shelves = new Dictionary<string, Transform>();
+        ItemSpawn[] myShelves = FindObjectsOfType<ItemSpawn>();
+        foreach (ItemSpawn shelf in myShelves)
+        {
+            shelves.Add(shelf.name, shelf.transform);
+        }
         networkedMode = true;
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.playModeStateChanged += OnPlayOrStop;
@@ -255,6 +274,12 @@ public class NetworkInput : MonoBehaviour {
                     ReceiveItems(newData);
                 }
                 break;
+            case (byte)Messages.SHELF:
+                {
+                    IntPtr newData = (IntPtr)packet;
+                    ReceiveShelfState(newData);
+                }
+                break;
             default:
                 Debug.Log("Message with identifier: " + (byte) packet[0]);
                 break;
@@ -295,6 +320,21 @@ public class NetworkInput : MonoBehaviour {
         }
         
         Debug.Log(newData.playerPosX[0] + "  " + newData.playerPosY[0] + "  " + newData.playerRotation[0] + " " + newData.playerVelocity[0].ToString() + " " + dt);
+    }
+
+    /**
+     * Receive shelf info from the server to sync up this client.
+     * */
+    public unsafe void ReceiveShelfState(IntPtr packet)
+    {        
+        ShelfState shelfData = (ShelfState)Marshal.PtrToStructure(packet, typeof(ShelfState));
+        
+        for (int i = 0; i < 14; i++)
+        {
+            Transform shelf = shelves[(FromByte(shelfData.name[i].pseudoString))];
+            shelf.position = shelfData.shelfPos[i];
+            shelf.rotation = shelfData.shelfRot[i];
+        }
     }
 
     public unsafe void SendChat()
@@ -359,6 +399,15 @@ public class NetworkInput : MonoBehaviour {
     byte[] ToByte(string s)
     {
         return Encoding.ASCII.GetBytes(s);
+    }
+
+    /* *
+     *  Abstract getting strings from byte arrays... I can't believe I 
+     *  actually need this goddamn function.
+     * */
+    string FromByte(byte[] b)
+    {
+        return Encoding.ASCII.GetString(b);
     }
 
     public unsafe void SetGUID()
