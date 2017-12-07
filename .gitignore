@@ -46,3 +46,4 @@ _WORKSPACE/
 *.idea
 *.gradle
 *.tmp
+etc*
