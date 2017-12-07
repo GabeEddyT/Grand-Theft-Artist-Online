@@ -71,6 +71,7 @@ public class NetworkInput : MonoBehaviour {
         public fixed float playerPosY[4];
         public fixed float playerRotation [4];
         public fixed ulong playerGuid[4];
+        public fixed float playerCash[4];
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
         public Vector2[] playerVelocity;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
@@ -332,6 +333,8 @@ public class NetworkInput : MonoBehaviour {
             {
                 players[i].speed = newData.playerAxes[i].x;
             }
+            players[i].cash = newData.playerCash[i];
+            players[i].money.text = "$" + newData.playerCash[i].ToString("F2");
         }
         
         Debug.Log(newData.playerPosX[0] + "  " + newData.playerPosY[0] + "  " + newData.playerRotation[0] + " " + newData.playerVelocity[0].ToString() + " " + dt);
@@ -360,6 +363,7 @@ public class NetworkInput : MonoBehaviour {
             BetaString bs;
             bs.id = (byte)Messages.MESSAGE;
             bs.pseudoString = ToByte(String.IsNullOrEmpty(chatName.text) ? guid + "" : chatName.text + " says: " + chatMess.text);
+            chatMess.text = "";
             SendPkt(bs);
         }
         ////BetaString bs = new BetaString((int)Messages.MESSAGE);
@@ -390,7 +394,10 @@ public class NetworkInput : MonoBehaviour {
             int size = Marshal.SizeOf(im);
             IntPtr myPtr = Marshal.AllocHGlobal(size);
             Marshal.StructureToPtr(im, myPtr, false);
-            sendNetworkPacket(myPtr, size);
+
+            if(!chatMess.isFocused)
+                sendNetworkPacket(myPtr, size);
+
             Marshal.FreeHGlobal(myPtr);
             yield return new WaitForSeconds(.034f);
         }
