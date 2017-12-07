@@ -141,11 +141,7 @@ public class ItemSpawn : MonoBehaviour
      * For networking.
      * */
     public IEnumerator Spawn(byte numItems, Vector2 location, byte[] itemType, Vector2[] trajectory, float[] rotVelocity)
-    {
-        if (!enableSpawn)
-        {
-            yield break;
-        }      
+    {   
 
         for (int i = 0; i < numItems; i++)
         {

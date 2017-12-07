@@ -47,6 +47,7 @@ public class NetworkInput : MonoBehaviour {
         GUID,
         EVENT,
         GAMESTATE,
+        ITEMSPAWN
     }
     public Canvas netMenu;
     public Player []players;
@@ -74,6 +75,18 @@ public class NetworkInput : MonoBehaviour {
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
         public Vector2[] playerAxes;
         public double timestamp;
+    };
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public unsafe struct ItemShip
+    {
+        public byte id;
+        public byte numItems;
+        public Vector2 location;
+        public fixed byte itemType[13];
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 13)]
+        public Vector2[] trajectory;
+        public fixed float rotVelocity[13];
     };
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -231,8 +244,16 @@ public class NetworkInput : MonoBehaviour {
                 StartCoroutine(SendInput());
                 break;
             case (byte)Messages.GAMESTATE:
-                IntPtr newData = (IntPtr)packet;
-                ReceiveGameState(newData);
+                {
+                    IntPtr newData = (IntPtr)packet;
+                    ReceiveGameState(newData);
+                }
+                break;
+            case (byte)Messages.ITEMSPAWN:
+                {
+                    IntPtr newData = (IntPtr)packet;
+                    ReceiveItems(newData);
+                }
                 break;
             default:
                 Debug.Log("Message with identifier: " + (byte) packet[0]);
@@ -344,5 +365,19 @@ public class NetworkInput : MonoBehaviour {
     {
         guid = UInt64.Parse(Marshal.PtrToStringAnsi(getGUID()));
         initFlag = true;
+    }
+
+    /**
+     * Receive the items from the server and call a random ItemSpawn-er to spawn them client-side.
+     * */
+    public unsafe void ReceiveItems(IntPtr pkt)
+    {
+        ItemShip shipment = (ItemShip)Marshal.PtrToStructure(pkt, typeof(ItemShip));
+        ItemSpawn spawner = FindObjectOfType<ItemSpawn>();
+        byte[] itemType = new byte[shipment.numItems];
+        float[] rotVelocity = new float[shipment.numItems];
+        Marshal.Copy((IntPtr)shipment.itemType, itemType, 0, shipment.numItems); // thank stack: https://stackoverflow.com/a/17569560
+        Marshal.Copy((IntPtr)shipment.rotVelocity, rotVelocity, 0, shipment.numItems); 
+        StartCoroutine( spawner.Spawn(shipment.numItems,shipment.location, itemType, shipment.trajectory, rotVelocity));
     }
 }
