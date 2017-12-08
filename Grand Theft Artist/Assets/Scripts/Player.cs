@@ -50,10 +50,6 @@ public class Player : MonoBehaviour
         {
             GetComponent<Animator>().speed = 0;
         }
-		if (Input.GetKey(KeyCode.Backspace) )
-		{
-			SceneManager.LoadScene(0);
-		}
     }
 
     // Update is called once per frame
