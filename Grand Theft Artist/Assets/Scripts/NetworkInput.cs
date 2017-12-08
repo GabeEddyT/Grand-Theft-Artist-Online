@@ -65,6 +65,7 @@ public class NetworkInput : MonoBehaviour {
     private bool cameraSet = false;
     private Dictionary<string, Transform> shelves;
     public Transform cameraTransform;
+    public Material playerMat;
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public unsafe struct GameState
@@ -357,6 +358,8 @@ public class NetworkInput : MonoBehaviour {
                     cameraTransform.parent = players[i].transform;
                     cameraTransform.localPosition = new Vector3(0,0, -10);
                     cameraSet = true;
+                    players[i].money.color = new Color(163f/255f,221f/255f,0);
+                    players[i].dollar.material = playerMat;
                 }
                 players[i].playerType = 1;
             }
