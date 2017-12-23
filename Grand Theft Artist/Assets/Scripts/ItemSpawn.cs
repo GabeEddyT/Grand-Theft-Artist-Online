@@ -146,7 +146,7 @@ public class ItemSpawn : MonoBehaviour
         for (int i = 0; i < numItems; i++)
         {
 
-            Item item = Instantiate(items[itemType[i]], location + trajectory[i].normalized * 2, transform.rotation);
+            Item item = Instantiate(items[itemType[i]], location, transform.rotation);
             item.gameObject.layer = 12;
 
             CircleCollider2D myCollider = item.gameObject.AddComponent<CircleCollider2D>();
