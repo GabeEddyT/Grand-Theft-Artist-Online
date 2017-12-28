@@ -46,7 +46,7 @@ public class LoadLevel : MonoBehaviour
             }
 
 
-            if (Input.GetAxis("Start") != 0 || Input.GetAxis("Pause") != 0)
+            if (/*Input.GetAxis("Start") != 0 || Input.GetAxis("Pause") != 0*/Input.GetKeyDown("return"))
             {
                 ExecuteEvents.Execute(selected.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
             }

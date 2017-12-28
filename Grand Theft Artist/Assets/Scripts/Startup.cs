@@ -26,8 +26,8 @@ public class Startup : MonoBehaviour {
         {
             return;
         }
-
-        if (Input.GetAxis("Start") != 0)
+        
+        if (Input.GetKeyDown("return"))
         {
             //Debug.Log(Input.GetAxis("Pause"));
             SceneManager.LoadScene(1);

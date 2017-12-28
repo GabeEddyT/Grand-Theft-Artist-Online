@@ -20,9 +20,10 @@ public class CinematicControl : MonoBehaviour
     private void Awake()
     {
         paused = false;
-
         myPlayer = standalone;
-        
+#if UNITY_WEBGL
+        myPlayer.url = Application.streamingAssetsPath + "/Cutscene.mp4";
+#endif
         myPlayer.prepareCompleted += OnPrepared;
         myPlayer.loopPointReached += OnEndReached;
         myPlayer.Prepare();            
@@ -131,15 +132,13 @@ public class CinematicControl : MonoBehaviour
     private void CheckInput()
     {       
 
-        if (Input.GetAxis("Start") != 0 || Input.GetButtonDown("Pause"))
+        if (/*Input.GetAxis("Start") != 0 || Input.GetButtonDown("Pause") */ Input.GetKeyDown(KeyCode.Pause) || Input.GetKeyDown(KeyCode.Return))
         {
-            if (held < 1)
-            {                
+             if(held < 1)              
                 PauseMovie();
-            }
             held++;
         }
-        else if (Input.GetAxis("Start") == 0)
+        else if (!(Input.GetKeyDown(KeyCode.Pause) || Input.GetKeyDown(KeyCode.Return)))
         {
             held = 0;
         }
@@ -151,7 +150,7 @@ public class CinematicControl : MonoBehaviour
             SceneManager.LoadScene(5);
         }
 #endif
-        if (Input.GetKeyDown(KeyCode.End))
+        if (Input.GetKeyDown(KeyCode.Equals) || Input.GetKeyDown(KeyCode.KeypadPlus))
         {
             SceneManager.LoadScene(5);
         }
