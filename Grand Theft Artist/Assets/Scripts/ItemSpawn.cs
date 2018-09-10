@@ -34,6 +34,10 @@ public class ItemSpawn : MonoBehaviour
     {
         Vector3 pos = collision.transform.position;
         //Debug.Log(collision.relativeVelocity.magnitude);
+        if (!collision.rigidbody)
+        {
+            yield break;
+        }
         Vector2 vec = collision.rigidbody.GetPointVelocity(collision.contacts[0].point);
 
         if (collision.rigidbody && !collision.rigidbody.isKinematic && (vec.magnitude > 20) && collision.gameObject.layer != 12)
